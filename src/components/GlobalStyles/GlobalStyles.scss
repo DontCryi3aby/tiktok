@@ -3,6 +3,9 @@
 
 :root {
     --primary-color: #ff3b5c;
+    --text-color: #333;
+    --black: #000;
+
     --default-layout-header-height: 60px;
     --default-layout-width: 1150px;
 }
@@ -19,7 +22,20 @@ html {
 
 body {
     font-size: 1.6rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
     line-height: 1.5;
+    color: var(--text-color);
     text-rendering: optimizeSpeed;
+}
+
+button,
+input,
+[tabindex] {
+    border: none;
+    outline: none;
+}
+
+a[href] {
+    color: var(--text-color);
+    text-decoration: none;
 }
