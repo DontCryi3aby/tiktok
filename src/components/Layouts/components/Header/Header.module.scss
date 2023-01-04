@@ -100,10 +100,14 @@
 }
 
 .actions {
+    display: flex;
+    align-items: center;
 }
 
-.upload {
-}
-
-.login {
+.more-btn {
+    margin-left: 20px;
+    padding: 4px 8px;
+    background-color: transparent;
+    font-size: 2rem;
+    cursor: pointer;
 }
