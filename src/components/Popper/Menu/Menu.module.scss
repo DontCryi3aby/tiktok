@@ -14,5 +14,27 @@
     width: 100%;
     justify-content: flex-start;
     font-weight: 600;
-    padding: 11px 16px;
+    padding: 12px 16px;
+    line-height: 1.8rem;
+}
+
+// Menu header
+.header {
+    position: relative;
+    height: 50px;
+    margin-top: -8px;
+}
+
+.back-btn {
+    width: 50px;
+    height: 100%;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.header-title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
