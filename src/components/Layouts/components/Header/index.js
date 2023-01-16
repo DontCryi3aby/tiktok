@@ -26,7 +26,8 @@ import images from '~/assets/images';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
 import Menu from '~/components/Popper/Menu';
-import { faMessage, faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import { InboxIcon, MessageIcon } from '~/components/Icons';
+import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
 
@@ -157,12 +158,13 @@ function Header() {
                         <>
                             <Tippy placement="bottom" content="Messages">
                                 <button className={cx('action-btn')}>
-                                    <FontAwesomeIcon icon={faPaperPlane} />
+                                    <MessageIcon />
                                 </button>
                             </Tippy>
                             <Tippy placement="bottom" content="Inbox">
                                 <button className={cx('action-btn')}>
-                                    <FontAwesomeIcon icon={faMessage} />
+                                    <InboxIcon />
+                                    <span className={cx('badge')}>24</span>
                                 </button>
                             </Tippy>
                         </>
@@ -176,10 +178,10 @@ function Header() {
 
                     <Menu items={currentUser ? USER_MENU : MENU_ITEMS} onChange={handleMenuChange}>
                         {currentUser ? (
-                            <img
+                            <Image
                                 className={cx('user-avatar')}
                                 src="https://i.pinimg.com/564x/91/f8/d8/91f8d839f5b0cc5409cd13a34f486715.jpg"
-                                alt="Nguyen Ngoc Thach"
+                                alt="avatar"
                             />
                         ) : (
                             <button className={cx('more-btn')}>
