@@ -7,6 +7,10 @@
     }
 }
 
+.menu-scrollable {
+    overflow-y: auto;
+}
+
 // Menu item
 .menu-item {
     border: none;
@@ -27,6 +31,7 @@
     position: relative;
     height: 50px;
     margin-top: -8px;
+    flex-shrink: 0;
 }
 
 .back-btn {
