@@ -16,7 +16,7 @@ import classNames from 'classnames/bind';
 import 'tippy.js/dist/tippy.css';
 import { Link } from 'react-router-dom';
 
-import routesConfig from '~/config/routes';
+import config from '~/config';
 import images from '~/assets/images';
 import Button from '~/components/Button';
 import { InboxIcon, MessageIcon } from '~/components/Icons';
@@ -105,7 +105,7 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <Link to={routesConfig.home} className={cx('logo-link')}>
+                <Link to={config.routes.home} className={cx('logo-link')}>
                     <img src={images.logo} alt="Tiktok" />
                 </Link>
 
