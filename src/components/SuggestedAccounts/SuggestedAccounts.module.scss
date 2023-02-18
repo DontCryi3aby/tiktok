@@ -1,0 +1,64 @@
+.wrapper {
+    border-top: 1px solid #1618231f;
+    padding: 16px 0;
+}
+
+.label {
+    color: #161823bf;
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding: 0 2px;
+    margin-bottom: 8px;
+    user-select: none;
+}
+
+.account-item {
+    display: flex;
+    align-items: center;
+    padding: 3px 2px;
+    border-radius: 4px;
+    transition: background-color ease-in 0.2s;
+
+    &:hover {
+        background-color: rgba(22, 24, 35, 0.03);
+    }
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.info {
+    margin-left: 12px;
+}
+
+.username {
+    color: #161823;
+    font-size: 1.6rem;
+    font-family: 'SofiaPro', sans-serif;
+}
+
+.check {
+    color: #20d5ec;
+    font-size: 1.4rem;
+    margin-left: 4px;
+}
+
+.name {
+    color: #161823bf;
+    font-size: 1.2rem;
+}
+
+.more-btn {
+    color: #fe2c55;
+    font-size: 1.4rem;
+    font-weight: 600;
+    background-color: transparent;
+    padding: 2px;
+    margin-top: 8px;
+    font-family: 'ProximaNova', sans-serif;
+    cursor: pointer;
+}

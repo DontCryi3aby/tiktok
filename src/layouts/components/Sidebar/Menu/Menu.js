@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
+import styles from './Menu.module.scss';
 
 function Menu({ children }) {
-    return <nav>{children}</nav>;
+    return <nav className={styles.wrapper}>{children}</nav>;
 }
 
 Menu.propTypes = {
