@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
@@ -8,15 +9,11 @@ import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
-function AccountPreview() {
+function AccountPreview({ data }) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
-                <Image
-                    className={cx('avatar')}
-                    src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/45819ddf6526367017c64f74853a6c53~c5_100x100.jpeg?x-expires=1676890800&x-signature=y%2BSxNTjRS1UgTRDpKY4x0XqJsZY%3D"
-                    alt=""
-                />
+                <Image className={cx('avatar')} src={data.avatar} alt={data.nickname} />
                 <Button primary className={cx('follow-btn')}>
                     Follow
                 </Button>
@@ -24,18 +21,22 @@ function AccountPreview() {
 
             <div className={cx('desc')}>
                 <h4 className={cx('username')}>
-                    <span>nguyenngocthach</span>
-                    <FontAwesomeIcon icon={faCheckCircle} className={cx('check')} />
+                    <span>{data.nickname}</span>
+                    {data.tick && <FontAwesomeIcon icon={faCheckCircle} className={cx('check')} />}
                 </h4>
-                <p className={cx('name')}>Nguyen Ngoc Thach</p>
+                <p className={cx('name')}>{`${data.first_name} ${data.last_name}`}</p>
 
                 <p className={cx('analytics')}>
-                    <span className={cx('value')}>2.4M</span> Followers
-                    <span className={cx('value')}>240.3M</span> Likes
+                    <span className={cx('value')}>{data.followers_count}</span> Followers
+                    <span className={cx('value')}>{data.likes_count}</span> Likes
                 </p>
             </div>
         </div>
     );
 }
+
+AccountPreview.propTypes = {
+    data: PropTypes.object.isRequired,
+};
 
 export default AccountPreview;

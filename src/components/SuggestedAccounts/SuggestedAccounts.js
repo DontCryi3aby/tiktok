@@ -6,16 +6,14 @@ import styles from './SuggestedAccounts.module.scss';
 
 const cx = classNames.bind(styles);
 
-function SuggestedAccounts({ label }) {
+function SuggestedAccounts({ label, data = [], isShowPreview = false }) {
     return (
         <div className={cx('wrapper')}>
             <p className={cx('label')}>{label}</p>
 
-            <AccountItem />
-            <AccountItem />
-            <AccountItem />
-            <AccountItem />
-            <AccountItem />
+            {data.map((account) => (
+                <AccountItem key={account.id} data={account} isShowPreview={isShowPreview} />
+            ))}
 
             <button className={cx('more-btn')}>See all</button>
         </div>
@@ -24,6 +22,8 @@ function SuggestedAccounts({ label }) {
 
 SuggestedAccounts.propTypes = {
     label: PropTypes.string.isRequired,
+    data: PropTypes.array,
+    isShowPreview: PropTypes.bool,
 };
 
 export default SuggestedAccounts;
