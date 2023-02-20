@@ -1,4 +1,75 @@
 .wrapper {
     width: calc(var(--default-layout-width) * 0.3);
     padding: 20px 0 26px;
+    max-height: calc(100vh - var(--default-layout-header-height));
+    overflow-y: overlay;
+    overscroll-behavior: contain;
+    position: fixed;
+
+    &:not(:hover) {
+        overflow: hidden;
+    }
+}
+
+.discover {
+    padding-top: 16px;
+    border-top: 1px solid rgba(22, 24, 35, 0.12);
+}
+
+.title {
+    color: #161823bf;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-top: 8px;
+}
+
+.tag-btn {
+    padding: 2px 14px;
+    margin-top: 8px;
+    margin-right: 8px;
+    border-radius: 999px;
+
+    & + .tag-btn {
+        margin-left: 0;
+    }
+}
+
+.footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(22, 24, 35, 0.12);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.link {
+    color: #16182380;
+    font-size: 1.2rem;
+    margin: 10px 6px 0 0;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.copyright {
+    font-size: 1.2rem;
+    color: #16182380;
+    margin-top: 10px;
+    font-weight: 600;
+    user-select: none;
+}
+
+.coppyright-icon {
+    font-size: 1.2rem;
+    margin-right: 2px;
 }
