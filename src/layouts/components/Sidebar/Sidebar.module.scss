@@ -1,14 +1,33 @@
 .wrapper {
     width: calc(var(--default-layout-width) * 0.3);
-    padding: 20px 0 26px;
+    padding: 20px 8px 26px 0;
     max-height: calc(100vh - var(--default-layout-header-height));
-    overflow-y: overlay;
+    overflow-y: hidden;
     overscroll-behavior: contain;
     position: fixed;
 
-    &:not(:hover) {
-        overflow: hidden;
+    &:hover {
+        overflow-y: overlay;
     }
+}
+
+// Login Notify
+.login-notify {
+    padding: 20px 0;
+    border-top: 1px solid rgba(22, 24, 35, 0.12);
+}
+
+.desc {
+    color: #16182380;
+    font-size: 1.6rem;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 11px 16px;
+    margin-top: 20px;
+    font-size: 1.8rem;
+    font-family: 'SofiaPro', sans-serif;
 }
 
 .discover {

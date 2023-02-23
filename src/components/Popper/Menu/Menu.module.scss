@@ -9,6 +9,7 @@
 
 .menu-scrollable {
     overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 // Menu item

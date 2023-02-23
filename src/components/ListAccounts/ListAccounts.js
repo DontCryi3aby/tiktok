@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
 import AccountItem from './AccountItem';
-import styles from './SuggestedAccounts.module.scss';
+import styles from './ListAccounts.module.scss';
 
 const cx = classNames.bind(styles);
 
-function SuggestedAccounts({ label, data = [], isShowPreview = false }) {
+function ListAccounts({ label, data = [], isShowPreview = false, onClickBtn = () => {}, titleBtn }) {
     return (
         <div className={cx('wrapper')}>
             <p className={cx('label')}>{label}</p>
@@ -15,15 +15,18 @@ function SuggestedAccounts({ label, data = [], isShowPreview = false }) {
                 <AccountItem key={account.id} data={account} isShowPreview={isShowPreview} />
             ))}
 
-            <button className={cx('more-btn')}>See all</button>
+            <button className={cx('more-btn')} onClick={onClickBtn}>
+                {titleBtn}
+            </button>
         </div>
     );
 }
 
-SuggestedAccounts.propTypes = {
+ListAccounts.propTypes = {
     label: PropTypes.string.isRequired,
     data: PropTypes.array,
     isShowPreview: PropTypes.bool,
+    onClickBtn: PropTypes.func,
 };
 
-export default SuggestedAccounts;
+export default ListAccounts;

@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopyright } from '@fortawesome/free-regular-svg-icons';
 import classNames from 'classnames/bind';
@@ -8,8 +7,8 @@ import styles from './Sidebar.module.scss';
 import config from '~/config';
 import { HomeIcon, UserGroupIcon, LiveIcon } from '~/components/Icons';
 import Menu, { MenuItem } from './Menu';
-import SuggestedAccounts from '~/components/SuggestedAccounts';
-import * as userService from '~/services/userService';
+import SuggestedAccounts from './SuggestedAccounts';
+import FollowingAccounts from './FollowingAccounts';
 import Button from '~/components/Button';
 import Hashtag from '~/components/Hashtag';
 import MusicTag from '~/components/MusicTag';
@@ -17,18 +16,8 @@ import MusicTag from '~/components/MusicTag';
 const cx = classNames.bind(styles);
 
 function Sidebar() {
-    const [suggestedUsers, setSuggestedUsers] = useState([]);
-    const [followingUsers, setFollowingUsers] = useState([]);
-
-    useEffect(() => {
-        const fetchAPI = async () => {
-            const suggestUsersResult = await userService.getSuggested();
-            const followingUsersResult = await userService.getSuggested(9, 5);
-            setSuggestedUsers(suggestUsersResult);
-            setFollowingUsers(followingUsersResult);
-        };
-        fetchAPI();
-    }, []);
+    // Fake Login Access
+    const [userLogin, setUserLogin] = useState(true);
 
     return (
         <aside className={cx('wrapper')}>
@@ -38,8 +27,18 @@ function Sidebar() {
                 <MenuItem title="LIVE" to={config.routes.live} icon={<LiveIcon />} />
             </Menu>
 
-            <SuggestedAccounts label="Suggested accounts" data={suggestedUsers} isShowPreview />
-            <SuggestedAccounts label="Following accounts" data={followingUsers} />
+            {!userLogin && (
+                <div className={cx('login-notify')}>
+                    <p className={cx('desc')}>Log in to follow creators, like videos, and view comments.</p>
+                    <Button className={cx('login-btn')} outline>
+                        Log in
+                    </Button>
+                </div>
+            )}
+
+            <SuggestedAccounts />
+
+            {userLogin && <FollowingAccounts />}
 
             <div className={cx('discover')}>
                 <p className={cx('title')}>Discover</p>

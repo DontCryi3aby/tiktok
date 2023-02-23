@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react/headless';
 
-import styles from './SuggestedAccounts.module.scss';
+import styles from './ListAccounts.module.scss';
 import Image from '~/components/Image';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountPreview from '~/components/AccountPreview';
