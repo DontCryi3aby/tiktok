@@ -1,0 +1,96 @@
+.video {
+    margin-top: 12px;
+    margin-left: 68px;
+    width: 300px;
+    height: 500px;
+    border-radius: 8px;
+    object-fit: cover;
+    cursor: pointer;
+
+    &:hover ~ .controls {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.controls {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s;
+
+    &:hover {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.control {
+    position: absolute;
+    bottom: 24px;
+    color: var(--white);
+    cursor: pointer;
+}
+
+.play-btn {
+    left: 100px;
+}
+
+.volume-btn {
+    left: 310px;
+
+    &:hover .volume-progress {
+        display: block;
+    }
+
+    &::before {
+        position: absolute;
+        content: '';
+        bottom: 100%;
+        width: 100%;
+        height: 8px;
+        background-color: transparent;
+    }
+}
+.volume-progress {
+    display: none;
+    position: absolute;
+    width: 25px;
+    height: 100px;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background-color: #16182357;
+    cursor: default;
+}
+.volume-bar {
+    position: absolute;
+    width: 4px;
+    height: 50px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    background-color: #aba7a7;
+}
+.volume {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    background-color: var(--white);
+
+    &::after {
+        position: absolute;
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: var(--white);
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+    }
+}

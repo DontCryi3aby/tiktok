@@ -1,15 +1,18 @@
+import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './MusicTag.module.scss';
 
-function MusicTag({ label }) {
+const cx = classNames.bind(styles);
+
+function MusicTag({ label, className }) {
     if (label.trim()) {
         return (
             <p>
-                <FontAwesomeIcon className={styles.icon} icon={faMusic} />
-                <span className={styles.label}>{label}</span>
+                <FontAwesomeIcon className={cx('icon', { [className]: className })} icon={faMusic} />
+                <span className={cx('label', { [className]: className })}>{label}</span>
             </p>
         );
     }
@@ -17,6 +20,7 @@ function MusicTag({ label }) {
 
 MusicTag.propTypes = {
     label: PropTypes.string.isRequired,
+    className: PropTypes.string,
 };
 
 export default MusicTag;

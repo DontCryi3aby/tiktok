@@ -27,6 +27,7 @@ ListAccounts.propTypes = {
     data: PropTypes.array,
     isShowPreview: PropTypes.bool,
     onClickBtn: PropTypes.func,
+    titleBtn: PropTypes.node.isRequired,
 };
 
 export default ListAccounts;
