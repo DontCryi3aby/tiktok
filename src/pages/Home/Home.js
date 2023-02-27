@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { InView } from 'react-intersection-observer';
 
 import Video from '~/components/Video';
 import styles from './Home.module.scss';
@@ -11,10 +12,10 @@ function Home() {
     const [isMuted, setIsMuted] = useState(true);
     const [inViewVideosArr, setInViewVideosArr] = useState([]);
     const [priorityVideo, setPriorityVideo] = useState({});
-    let priorityVideoI = {};
 
     // State
     const [videosList, setVideosList] = useState([]);
+    const [page, setPage] = useState(1);
 
     // Provide value to VideoContext
     const contextValue = {
@@ -22,16 +23,19 @@ function Home() {
         mutedState: [isMuted, setIsMuted],
         inViewVideosArrState: [inViewVideosArr, setInViewVideosArr],
         priorityVideoState: [priorityVideo, setPriorityVideo],
-        priorityVideoI,
     };
 
     useEffect(() => {
         const fetchAPI = async () => {
-            const data = await videoService.getVideosList({ type: 'for-you', page: 2 });
-            setVideosList(data);
+            const data = await videoService.getVideosList({ type: 'for-you', page: page });
+            if (data) {
+                setVideosList((prev) => [...prev, ...data]);
+            } else {
+                return;
+            }
         };
         fetchAPI();
-    }, []);
+    }, [page]);
 
     return (
         <VideoContext value={contextValue}>
@@ -39,6 +43,7 @@ function Home() {
                 {videosList.map((video) => (
                     <Video key={video.id} data={video} />
                 ))}
+                <InView as="div" onChange={(inView, entry) => setPage(page + 1)}></InView>
             </div>
         </VideoContext>
     );

@@ -17,7 +17,7 @@ const cx = classNames.bind(styles);
 
 function Sidebar() {
     // Fake Login Access
-    const [userLogin, setUserLogin] = useState(true);
+    const [userLogin, setUserLogin] = useState(false);
 
     return (
         <aside className={cx('wrapper')}>

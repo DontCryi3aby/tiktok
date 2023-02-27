@@ -5,8 +5,8 @@ import * as userService from '~/services/userService';
 
 function SuggestedAccounts() {
     const [suggestedUsers, setSuggestedUsers] = useState([]);
-
     const [isSeeAll, setIsSeeAll] = useState(true);
+
     let titleBtn = isSeeAll ? 'See all' : 'See less';
     const currentSuggestedUsers = isSeeAll ? suggestedUsers.slice(0, 5) : suggestedUsers;
 
