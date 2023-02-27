@@ -1,24 +1,32 @@
-.video {
+.wrapper {
+    position: relative;
     margin-top: 12px;
     margin-left: 68px;
-    width: 300px;
-    height: 500px;
+
+    &.vertical {
+        height: 500px;
+    }
+
+    &.horizontal {
+        width: 500px;
+    }
+}
+
+.video {
+    width: 100%;
+    height: 100%;
     border-radius: 8px;
     object-fit: cover;
     cursor: pointer;
 
-    &:hover ~ .controls {
+    &:hover ~ .controls .control {
         opacity: 1;
         visibility: visible;
     }
 }
 
 .controls {
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.2s;
-
-    &:hover {
+    &:hover .control {
         opacity: 1;
         visibility: visible;
     }
@@ -26,17 +34,20 @@
 
 .control {
     position: absolute;
+    opacity: 0;
+    visibility: hidden;
     bottom: 24px;
     color: var(--white);
     cursor: pointer;
+    transition: all 0.2s ease-in;
 }
 
 .play-btn {
-    left: 100px;
+    left: 30px;
 }
 
 .volume-btn {
-    left: 310px;
+    right: 30px;
 
     &:hover .volume-progress {
         display: block;
@@ -50,6 +61,11 @@
         height: 8px;
         background-color: transparent;
     }
+}
+
+.mute {
+    opacity: 1 !important;
+    visibility: visible;
 }
 .volume-progress {
     display: none;

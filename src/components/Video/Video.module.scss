@@ -22,6 +22,7 @@
 .desc {
     color: #161823;
     margin-left: 12px;
+    flex: 1;
 }
 .user {
     display: flex;
@@ -37,6 +38,10 @@
 }
 .caption {
     font-size: 1.6rem;
+}
+
+.follow-btn {
+    margin-left: 20px;
 }
 .music-tag {
     margin-left: 68px;
