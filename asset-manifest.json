@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/DontCryi3aby.github.io/tiktok/static/css/main.8244c56c.css",
-    "main.js": "/DontCryi3aby.github.io/tiktok/static/js/main.efe0875e.js",
-    "static/js/787.5e0bafc9.chunk.js": "/DontCryi3aby.github.io/tiktok/static/js/787.5e0bafc9.chunk.js",
-    "static/media/ErrorImage.jpg": "/DontCryi3aby.github.io/tiktok/static/media/ErrorImage.1d84261ec2078cf14269.jpg",
-    "static/media/sofiapro-bold.woff2": "/DontCryi3aby.github.io/tiktok/static/media/sofiapro-bold.1d7186488612ac20891f.woff2",
-    "static/media/Proxima-Nova-Bold.woff2": "/DontCryi3aby.github.io/tiktok/static/media/Proxima-Nova-Bold.8dd475cbc90552d85f91.woff2",
-    "static/media/Proxima-Nova-Regular.woff2": "/DontCryi3aby.github.io/tiktok/static/media/Proxima-Nova-Regular.6c83037ae28747e6d774.woff2",
-    "static/media/Proxima-Nova-Semibold.woff2": "/DontCryi3aby.github.io/tiktok/static/media/Proxima-Nova-Semibold.c5632e80f6e35c93156f.woff2",
-    "static/media/logo.svg": "/DontCryi3aby.github.io/tiktok/static/media/logo.60657302c2c6369f7983eb3d85955c1a.svg",
-    "index.html": "/DontCryi3aby.github.io/tiktok/index.html",
-    "main.8244c56c.css.map": "/DontCryi3aby.github.io/tiktok/static/css/main.8244c56c.css.map",
-    "main.efe0875e.js.map": "/DontCryi3aby.github.io/tiktok/static/js/main.efe0875e.js.map",
-    "787.5e0bafc9.chunk.js.map": "/DontCryi3aby.github.io/tiktok/static/js/787.5e0bafc9.chunk.js.map"
+    "main.css": "./static/css/main.29ca445e.css",
+    "main.js": "./static/js/main.1b44cbf7.js",
+    "static/js/787.5e0bafc9.chunk.js": "./static/js/787.5e0bafc9.chunk.js",
+    "static/media/ErrorImage.jpg": "./static/media/ErrorImage.1d84261ec2078cf14269.jpg",
+    "static/media/sofiapro-bold.woff2": "./static/media/sofiapro-bold.1d7186488612ac20891f.woff2",
+    "static/media/Proxima-Nova-Bold.woff2": "./static/media/Proxima-Nova-Bold.8dd475cbc90552d85f91.woff2",
+    "static/media/Proxima-Nova-Regular.woff2": "./static/media/Proxima-Nova-Regular.6c83037ae28747e6d774.woff2",
+    "static/media/Proxima-Nova-Semibold.woff2": "./static/media/Proxima-Nova-Semibold.c5632e80f6e35c93156f.woff2",
+    "static/media/logo.svg": "./static/media/logo.60657302c2c6369f7983eb3d85955c1a.svg",
+    "index.html": "./index.html",
+    "main.29ca445e.css.map": "./static/css/main.29ca445e.css.map",
+    "main.1b44cbf7.js.map": "./static/js/main.1b44cbf7.js.map",
+    "787.5e0bafc9.chunk.js.map": "./static/js/787.5e0bafc9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8244c56c.css",
-    "static/js/main.efe0875e.js"
+    "static/css/main.29ca445e.css",
+    "static/js/main.1b44cbf7.js"
   ]
 }
