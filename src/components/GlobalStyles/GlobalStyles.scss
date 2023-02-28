@@ -46,6 +46,14 @@ html *::-webkit-scrollbar-track {
     background-color: rgba(0, 0, 0, 0);
 }
 
+.hide {
+    display: none;
+}
+
+.show {
+    display: flex;
+}
+
 button,
 input,
 [tabindex] {

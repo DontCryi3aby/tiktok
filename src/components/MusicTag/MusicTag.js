@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 function MusicTag({ label, className }) {
     if (label.trim()) {
         return (
-            <p>
+            <p className={cx('wrapper')}>
                 <FontAwesomeIcon className={cx('icon', { [className]: className })} icon={faMusic} />
                 <span className={cx('label', { [className]: className })}>{label}</span>
             </p>

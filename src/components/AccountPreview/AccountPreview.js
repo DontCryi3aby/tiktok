@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
@@ -6,15 +7,29 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import styles from './AccountPreview.module.scss';
 import Image from '~/components/Image';
 import Button from '~/components/Button';
+import { Context } from '~/store/AuthContext';
+import { defaultFn } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
 
 function AccountPreview({ data }) {
+    // Fake user login
+    const currentUser = false;
+
+    // Get data from AuthContext
+    const { modalRef, ShowModal } = useContext(Context);
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
                 <Image className={cx('avatar')} src={data.avatar} alt={data.nickname} />
-                <Button primary className={cx('follow-btn')}>
+                <Button
+                    primary
+                    className={cx('follow-btn')}
+                    onClick={() => {
+                        !currentUser ? ShowModal(modalRef) : defaultFn();
+                    }}
+                >
                     Follow
                 </Button>
             </div>

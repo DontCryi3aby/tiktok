@@ -15,6 +15,7 @@ import Tippy from '@tippyjs/react';
 import classNames from 'classnames/bind';
 import 'tippy.js/dist/tippy.css';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 
 import config from '~/config';
 import images from '~/assets/images';
@@ -24,6 +25,7 @@ import Image from '~/components/Image';
 import Menu from '~/components/Popper/Menu';
 import Search from '../Search';
 import styles from './Header.module.scss';
+import { Context } from '~/store/AuthContext';
 
 const cx = classNames.bind(styles);
 
@@ -92,6 +94,9 @@ function Header() {
     // Fake user login
     const currentUser = false;
 
+    // Get data from AuthContext
+    const { modalRef, ShowModal } = useContext(Context);
+
     // Handle logic
     const handleMenuChange = (menuItem) => {
         switch (menuItem.type) {
@@ -101,6 +106,8 @@ function Header() {
             default:
         }
     };
+
+    const defaultFn = () => {};
 
     return (
         <header className={cx('wrapper')}>
@@ -112,7 +119,13 @@ function Header() {
                 <Search />
 
                 <div className={cx('actions')}>
-                    <Button leftIcon={<FontAwesomeIcon icon={faPlus} />} className={cx('upload')}>
+                    <Button
+                        leftIcon={<FontAwesomeIcon icon={faPlus} />}
+                        className={cx('upload')}
+                        onClick={() => {
+                            !currentUser ? ShowModal(modalRef) : defaultFn();
+                        }}
+                    >
                         Upload
                     </Button>
                     {currentUser ? (
@@ -131,7 +144,7 @@ function Header() {
                         </>
                     ) : (
                         <>
-                            <Button primary className={cx('login')}>
+                            <Button primary className={cx('login')} onClick={() => ShowModal(modalRef)}>
                                 Log in
                             </Button>
                         </>

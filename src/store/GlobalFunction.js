@@ -5,3 +5,5 @@ export const StopPropagation = (e) => {
 export const PreventDefault = (e) => {
     e.preventDefault();
 };
+
+export const defaultFn = () => {};

@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useRef, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import styles from './MainModal.module.scss';
 import {
@@ -15,6 +15,7 @@ import {
     InstagramIcon,
 } from '~/components/Icons';
 import LoginItem from './LoginItem';
+import { Context } from '~/store/AuthContext';
 
 const cx = classNames.bind(styles);
 
@@ -73,9 +74,10 @@ const SIGNUP_WAYS = [
 ];
 
 const MainModal = () => {
-    const [isLoginDisplay, setIsLoginDisplay] = useState(false);
+    const [isLoginDisplay, setIsLoginDisplay] = useState(true);
 
-    const modalRef = useRef();
+    // Get data from AuthContext
+    const { modalRef, HideModal } = useContext(Context);
 
     const List = isLoginDisplay ? LOGIN_WAYS : SIGNUP_WAYS;
 
@@ -84,11 +86,14 @@ const MainModal = () => {
     };
 
     const closeModal = () => {
-        modalRef.current.classList.add(cx('hide'));
+        HideModal(modalRef);
+        setIsLoginDisplay(true);
     };
 
+    const classes = `${cx('modal')} hide`;
+
     return (
-        <div className={cx('modal', 'hide')} ref={modalRef}>
+        <div className={classes} ref={modalRef}>
             <div className={cx('modal-inner')}>
                 <button className={cx('close-btn')} onClick={closeModal}>
                     <CloseIcon className={cx('close-icon')} />

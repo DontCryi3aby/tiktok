@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopyright } from '@fortawesome/free-regular-svg-icons';
 import classNames from 'classnames/bind';
@@ -12,12 +12,16 @@ import FollowingAccounts from './FollowingAccounts';
 import Button from '~/components/Button';
 import Hashtag from '~/components/Hashtag';
 import MusicTag from '~/components/MusicTag';
+import { Context } from '~/store/AuthContext';
 
 const cx = classNames.bind(styles);
 
 function Sidebar() {
     // Fake Login Access
     const [userLogin, setUserLogin] = useState(false);
+
+    // Get data from AuthContext
+    const { modalRef, ShowModal } = useContext(Context);
 
     return (
         <aside className={cx('wrapper')}>
@@ -30,7 +34,7 @@ function Sidebar() {
             {!userLogin && (
                 <div className={cx('login-notify')}>
                     <p className={cx('desc')}>Log in to follow creators, like videos, and view comments.</p>
-                    <Button className={cx('login-btn')} outline>
+                    <Button className={cx('login-btn')} outline onClick={() => ShowModal(modalRef)}>
                         Log in
                     </Button>
                 </div>

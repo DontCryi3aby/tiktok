@@ -18,6 +18,12 @@
     height: 56px;
     border-radius: 50%;
     object-fit: cover;
+    cursor: pointer;
+    position: relative;
+}
+
+.avt:hover ~ .desc .username {
+    text-decoration: underline;
 }
 .desc {
     color: #161823;
@@ -27,6 +33,11 @@
 .user {
     display: flex;
     align-items: center;
+    cursor: pointer;
+
+    &:hover .username {
+        text-decoration: underline;
+    }
 }
 .username {
     font-size: 1.8rem;
@@ -50,6 +61,10 @@
     font-size: 1.6rem;
     color: #161823;
     font-weight: 600;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .video-wrapper {
