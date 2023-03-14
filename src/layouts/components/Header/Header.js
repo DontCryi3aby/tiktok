@@ -25,7 +25,8 @@ import Image from '~/components/Image';
 import Menu from '~/components/Popper/Menu';
 import Search from '../Search';
 import styles from './Header.module.scss';
-import { Context } from '~/store/AuthContext';
+import { Context as authContext } from '~/store/AuthContext';
+import { Context as userLoginContext } from '~/store/UserLoginContext';
 
 const cx = classNames.bind(styles);
 
@@ -91,11 +92,12 @@ const USER_MENU = [
 ];
 
 function Header() {
-    // Fake user login
-    const currentUser = false;
+    // Get data from UserLoginContext
+    const { loginState } = useContext(userLoginContext);
+    const [isUserLoggedIn, setIsUserLoggedIn] = loginState;
 
     // Get data from AuthContext
-    const { modalRef, ShowModal } = useContext(Context);
+    const { modalRef, ShowModal } = useContext(authContext);
 
     // Handle logic
     const handleMenuChange = (menuItem) => {
@@ -123,12 +125,12 @@ function Header() {
                         leftIcon={<FontAwesomeIcon icon={faPlus} />}
                         className={cx('upload')}
                         onClick={() => {
-                            !currentUser ? ShowModal(modalRef) : defaultFn();
+                            !isUserLoggedIn ? ShowModal(modalRef) : defaultFn();
                         }}
                     >
                         Upload
                     </Button>
-                    {currentUser ? (
+                    {isUserLoggedIn ? (
                         <>
                             <Tippy placement="bottom" content="Messages">
                                 <button className={cx('action-btn')}>
@@ -150,8 +152,8 @@ function Header() {
                         </>
                     )}
 
-                    <Menu items={currentUser ? USER_MENU : MENU_ITEMS} onChange={handleMenuChange}>
-                        {currentUser ? (
+                    <Menu items={isUserLoggedIn ? USER_MENU : MENU_ITEMS} onChange={handleMenuChange}>
+                        {isUserLoggedIn ? (
                             <Image
                                 className={cx('user-avatar')}
                                 src="https://i.pinimg.com/564x/91/f8/d8/91f8d839f5b0cc5409cd13a34f486715.jpg"

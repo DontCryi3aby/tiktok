@@ -3,7 +3,7 @@ import Header from '~/layouts/components/Header';
 import Sidebar from '~/layouts/components/Sidebar';
 import classNames from 'classnames/bind';
 import styles from './DefaultLayout.module.scss';
-import MainModal from '~/components/Modals/MainModal';
+import MainLoginModal from '~/components/Modals/MainLoginModal';
 import { useRef } from 'react';
 import AuthContext from '~/store/AuthContext';
 
@@ -12,6 +12,7 @@ const cx = classNames.bind(styles);
 function DefaultLayout({ children }) {
     // Provide Value To AuthContext
     const modalRef = useRef();
+
     const ShowModal = (ref) => {
         ref.current.classList.add('show');
         ref.current.classList.remove('hide');
@@ -36,7 +37,7 @@ function DefaultLayout({ children }) {
                     <div className={cx('content')}>{children}</div>
                 </div>
             </div>
-            <MainModal />
+            <MainLoginModal />
         </AuthContext>
     );
 }

@@ -12,16 +12,18 @@ import FollowingAccounts from './FollowingAccounts';
 import Button from '~/components/Button';
 import Hashtag from '~/components/Hashtag';
 import MusicTag from '~/components/MusicTag';
-import { Context } from '~/store/AuthContext';
+import { Context as authContext } from '~/store/AuthContext';
+import { Context as userLoginContext } from '~/store/UserLoginContext';
 
 const cx = classNames.bind(styles);
 
 function Sidebar() {
-    // Fake Login Access
-    const [userLogin, setUserLogin] = useState(false);
+    // Get data from UserLoginContext
+    const { loginState } = useContext(userLoginContext);
+    const [isUserLoggedIn, setIsUserLoggedIn] = loginState;
 
     // Get data from AuthContext
-    const { modalRef, ShowModal } = useContext(Context);
+    const { modalRef, ShowModal } = useContext(authContext);
 
     return (
         <aside className={cx('wrapper')}>
@@ -31,7 +33,7 @@ function Sidebar() {
                 <MenuItem title="LIVE" to={config.routes.live} icon={<LiveIcon />} />
             </Menu>
 
-            {!userLogin && (
+            {!isUserLoggedIn && (
                 <div className={cx('login-notify')}>
                     <p className={cx('desc')}>Log in to follow creators, like videos, and view comments.</p>
                     <Button className={cx('login-btn')} outline onClick={() => ShowModal(modalRef)}>
@@ -42,7 +44,7 @@ function Sidebar() {
 
             <SuggestedAccounts />
 
-            {userLogin && <FollowingAccounts />}
+            {isUserLoggedIn && <FollowingAccounts />}
 
             <div className={cx('discover')}>
                 <p className={cx('title')}>Discover</p>

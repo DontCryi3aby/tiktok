@@ -7,17 +7,19 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import styles from './AccountPreview.module.scss';
 import Image from '~/components/Image';
 import Button from '~/components/Button';
-import { Context } from '~/store/AuthContext';
+import { Context as authContext } from '~/store/AuthContext';
+import { Context as userLoginContext } from '~/store/UserLoginContext';
 import { defaultFn } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
 
 function AccountPreview({ data }) {
-    // Fake user login
-    const currentUser = false;
+    // Get data from UserLoginContext
+    const { loginState } = useContext(userLoginContext);
+    const [isUserLoggedIn, setIsUserLoggedIn] = loginState;
 
     // Get data from AuthContext
-    const { modalRef, ShowModal } = useContext(Context);
+    const { modalRef, ShowModal } = useContext(authContext);
 
     return (
         <div className={cx('wrapper')}>
@@ -27,7 +29,7 @@ function AccountPreview({ data }) {
                     primary
                     className={cx('follow-btn')}
                     onClick={() => {
-                        !currentUser ? ShowModal(modalRef) : defaultFn();
+                        !isUserLoggedIn ? ShowModal(modalRef) : defaultFn();
                     }}
                 >
                     Follow

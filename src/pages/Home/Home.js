@@ -28,11 +28,7 @@ function Home() {
     useEffect(() => {
         const fetchAPI = async () => {
             const data = await videoService.getVideosList({ type: 'for-you', page: page });
-            if (data) {
-                setVideosList((prev) => [...prev, ...data]);
-            } else {
-                return;
-            }
+            setVideosList((prev) => [...prev, ...data]);
         };
         fetchAPI();
     }, [page]);
@@ -43,7 +39,11 @@ function Home() {
                 {videosList.map((video) => (
                     <Video key={video.id} data={video} />
                 ))}
-                <InView as="div" onChange={(inView, entry) => setPage(page + 1)}></InView>
+                <InView
+                    onChange={(inView, entry) => {
+                        setPage(page + 1);
+                    }}
+                ></InView>
             </div>
         </VideoContext>
     );

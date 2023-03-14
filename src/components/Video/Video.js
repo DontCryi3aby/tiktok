@@ -14,6 +14,7 @@ import { Context } from '~/store/AuthContext';
 import { defaultFn } from '~/store/GlobalFunction';
 import AccountPreview from '~/components/AccountPreview';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
+import { Context as userLoginContext } from '~/store/UserLoginContext';
 
 const cx = classNames.bind(styles);
 
@@ -21,8 +22,9 @@ function Video({ data }) {
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(Context);
 
-    // Fake user login
-    const currentUser = false;
+    // Get data from UserLoginContext
+    const { loginState } = useContext(userLoginContext);
+    const [isUserLoggedIn, setIsUserLoggedIn] = loginState;
 
     const renderPreview = (attrs) => (
         <div className={cx('preview')} tabIndex="-1" {...attrs}>
@@ -72,7 +74,7 @@ function Video({ data }) {
                     outline
                     small
                     onClick={() => {
-                        !currentUser ? ShowModal(modalRef) : defaultFn();
+                        !isUserLoggedIn ? ShowModal(modalRef) : defaultFn();
                     }}
                 >
                     Follow

@@ -1,0 +1,120 @@
+.wrapper {
+    color: #161823bf;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #161823;
+    margin-bottom: 4px;
+    user-select: none;
+}
+
+.main-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.sub-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+
+    &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}
+
+// Login Phone Form
+.phone-form-group {
+    width: 100%;
+    font-size: 1.6rem;
+    background-color: rgba(22, 24, 35, 0.06);
+    border: 1px solid rgba(22, 24, 35, 0.12);
+    color: rgb(22, 24, 35);
+    padding: 10px;
+    caret-color: var(--primary-color);
+    margin-bottom: 10px;
+    font-family: 'Proximanova', sans-serif;
+    display: flex;
+    align-items: center;
+    height: 46px;
+    border-radius: 4px;
+}
+
+.local-phone {
+    cursor: pointer;
+    padding-right: 10px;
+    border-right: 1px solid rgba(22, 24, 35, 0.12);
+}
+
+.down-icon {
+    margin-left: 8px;
+    position: relative;
+    bottom: 3px;
+}
+
+#phone {
+    padding-left: 10px;
+}
+
+#phone,
+#code {
+    background-color: transparent;
+    color: rgb(22, 24, 35);
+    font-family: 'Proximanova', sans-serif;
+    font-size: 1.6rem;
+    flex: 1;
+}
+
+.send-code-btn {
+    padding-left: 10px;
+    border-left: 1px solid rgba(22, 24, 35, 0.12);
+    font-size: 1.6rem;
+    font-weight: 600;
+    font-family: 'Proximanova', sans-serif;
+    color: rgba(22, 24, 35, 0.34);
+    cursor: not-allowed;
+}
+
+// Login Email Form
+#username,
+#password {
+    width: 100%;
+    font-size: 1.6rem;
+    background-color: rgba(22, 24, 35, 0.06);
+    border: 1px solid rgba(22, 24, 35, 0.12);
+    color: rgb(22, 24, 35);
+    padding: 12px 10px;
+    caret-color: var(--primary-color);
+    margin-bottom: 10px;
+    font-family: 'Proximanova', sans-serif;
+    height: 46px;
+    border-radius: 4px;
+}
+
+.forgot-btn,
+.change-login-btn {
+    font-size: 1.2rem;
+    font-weight: 600;
+    position: relative;
+    bottom: 8px;
+
+    &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+.login-btn {
+    width: 100%;
+    border: none;
+    font-size: 1.6rem;
+    padding: 13px;
+
+    &.disabled {
+        pointer-events: none;
+        color: rgba(22, 24, 35, 0.34);
+        background-color: rgba(22, 24, 35, 0.06);
+    }
+}

@@ -28,15 +28,15 @@ function Search() {
             return;
         }
 
-        const fetchApi = async () => {
+        // IIFE
+        (async () => {
             setLoading(true);
 
             const result = await searchServices.search(debounce);
             setSearchResult(result);
 
             setLoading(false);
-        };
-        fetchApi();
+        })();
     }, [debounce]);
 
     const handleClear = () => {
