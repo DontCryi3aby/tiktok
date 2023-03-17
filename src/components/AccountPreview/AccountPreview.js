@@ -9,14 +9,14 @@ import Image from '~/components/Image';
 import Button from '~/components/Button';
 import { Context as authContext } from '~/store/AuthContext';
 import { Context as userLoginContext } from '~/store/UserLoginContext';
-import { defaultFn } from '~/store/GlobalFunction';
+import { defaultFn, isEmptyObj } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
 
 function AccountPreview({ data }) {
     // Get data from UserLoginContext
-    const { loginState } = useContext(userLoginContext);
-    const [isUserLoggedIn, setIsUserLoggedIn] = loginState;
+    const { currentUserState } = useContext(userLoginContext);
+    const [currentUser] = currentUserState;
 
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(authContext);
@@ -29,7 +29,7 @@ function AccountPreview({ data }) {
                     primary
                     className={cx('follow-btn')}
                     onClick={() => {
-                        !isUserLoggedIn ? ShowModal(modalRef) : defaultFn();
+                        !isEmptyObj(currentUser) ? ShowModal(modalRef) : defaultFn();
                     }}
                 >
                     Follow

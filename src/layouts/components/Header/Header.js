@@ -27,6 +27,7 @@ import Search from '../Search';
 import styles from './Header.module.scss';
 import { Context as authContext } from '~/store/AuthContext';
 import { Context as userLoginContext } from '~/store/UserLoginContext';
+import { defaultFn, isEmptyObj, reloadPage } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
 
@@ -84,17 +85,18 @@ const USER_MENU = [
     },
     ...MENU_ITEMS,
     {
+        type: 'logout',
         icon: <FontAwesomeIcon icon={faSignOut} />,
         title: 'Log out',
-        to: '/logout',
+        to: '/',
         separate: true,
     },
 ];
 
 function Header() {
     // Get data from UserLoginContext
-    const { loginState } = useContext(userLoginContext);
-    const [isUserLoggedIn, setIsUserLoggedIn] = loginState;
+    const { currentUserState } = useContext(userLoginContext);
+    const [currentUser, setCurrentUser] = currentUserState;
 
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(authContext);
@@ -105,17 +107,24 @@ function Header() {
             case 'language':
                 // handle change language
                 break;
+            case 'logout':
+                handleLogout();
+                break;
             default:
         }
     };
 
-    const defaultFn = () => {};
+    // Logout Function
+    const handleLogout = () => {
+        setCurrentUser({});
+        reloadPage();
+    };
 
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <Link to={config.routes.home} className={cx('logo-link')}>
-                    <img src={images.logo} alt="Tiktok" />
+                    <Image src={images.logo} alt="Tiktok" onClick={reloadPage} />
                 </Link>
 
                 <Search />
@@ -125,12 +134,12 @@ function Header() {
                         leftIcon={<FontAwesomeIcon icon={faPlus} />}
                         className={cx('upload')}
                         onClick={() => {
-                            !isUserLoggedIn ? ShowModal(modalRef) : defaultFn();
+                            isEmptyObj(currentUser) ? ShowModal(modalRef) : defaultFn();
                         }}
                     >
                         Upload
                     </Button>
-                    {isUserLoggedIn ? (
+                    {!isEmptyObj(currentUser) ? (
                         <>
                             <Tippy placement="bottom" content="Messages">
                                 <button className={cx('action-btn')}>
@@ -143,28 +152,22 @@ function Header() {
                                     <span className={cx('badge')}>24</span>
                                 </button>
                             </Tippy>
+                            <Menu items={USER_MENU} onChange={handleMenuChange}>
+                                <Image className={cx('user-avatar')} src={currentUser.avatar} alt="avatar" />
+                            </Menu>
                         </>
                     ) : (
                         <>
                             <Button primary className={cx('login')} onClick={() => ShowModal(modalRef)}>
                                 Log in
                             </Button>
+                            <Menu items={MENU_ITEMS} onChange={handleMenuChange}>
+                                <button className={cx('more-btn')}>
+                                    <FontAwesomeIcon icon={faEllipsisVertical} />
+                                </button>
+                            </Menu>
                         </>
                     )}
-
-                    <Menu items={isUserLoggedIn ? USER_MENU : MENU_ITEMS} onChange={handleMenuChange}>
-                        {isUserLoggedIn ? (
-                            <Image
-                                className={cx('user-avatar')}
-                                src="https://i.pinimg.com/564x/91/f8/d8/91f8d839f5b0cc5409cd13a34f486715.jpg"
-                                alt="avatar"
-                            />
-                        ) : (
-                            <button className={cx('more-btn')}>
-                                <FontAwesomeIcon icon={faEllipsisVertical} />
-                            </button>
-                        )}
-                    </Menu>
                 </div>
             </div>
         </header>

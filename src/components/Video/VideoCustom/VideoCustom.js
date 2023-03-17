@@ -12,7 +12,7 @@ const cx = classNames.bind(styles);
 
 function VideoCustom({ data }) {
     // Get data from VideoContext
-    const { volumeState, mutedState, inViewVideosArrState, priorityVideoState } = useContext(Context);
+    const { volumeState, mutedState } = useContext(Context);
     // let { priorityVideoI } = useContext(Context);
 
     // State context

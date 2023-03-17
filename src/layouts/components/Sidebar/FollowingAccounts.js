@@ -35,15 +35,7 @@ function FollowingAccounts() {
         }
     };
 
-    return (
-        <ListAccounts
-            label="Suggested accounts"
-            data={currentList}
-            isShowPreview
-            titleBtn={titleBtn}
-            onClickBtn={handleClick}
-        />
-    );
+    return <ListAccounts label="Following accounts" data={currentList} titleBtn={titleBtn} onClickBtn={handleClick} />;
 }
 
 export default FollowingAccounts;

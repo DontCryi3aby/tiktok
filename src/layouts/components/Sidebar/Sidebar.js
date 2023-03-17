@@ -14,13 +14,14 @@ import Hashtag from '~/components/Hashtag';
 import MusicTag from '~/components/MusicTag';
 import { Context as authContext } from '~/store/AuthContext';
 import { Context as userLoginContext } from '~/store/UserLoginContext';
+import { isEmptyObj } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
 
 function Sidebar() {
     // Get data from UserLoginContext
-    const { loginState } = useContext(userLoginContext);
-    const [isUserLoggedIn, setIsUserLoggedIn] = loginState;
+    const { currentUserState } = useContext(userLoginContext);
+    const [currentUser] = currentUserState;
 
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(authContext);
@@ -33,7 +34,7 @@ function Sidebar() {
                 <MenuItem title="LIVE" to={config.routes.live} icon={<LiveIcon />} />
             </Menu>
 
-            {!isUserLoggedIn && (
+            {isEmptyObj(currentUser) && (
                 <div className={cx('login-notify')}>
                     <p className={cx('desc')}>Log in to follow creators, like videos, and view comments.</p>
                     <Button className={cx('login-btn')} outline onClick={() => ShowModal(modalRef)}>
@@ -44,7 +45,7 @@ function Sidebar() {
 
             <SuggestedAccounts />
 
-            {isUserLoggedIn && <FollowingAccounts />}
+            {!isEmptyObj(currentUser) && <FollowingAccounts />}
 
             <div className={cx('discover')}>
                 <p className={cx('title')}>Discover</p>

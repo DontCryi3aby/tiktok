@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortDown } from '@fortawesome/free-solid-svg-icons';
 
 import Button from '~/components/Button';
-import styles from './LoginWay.module.scss';
+import styles from './LoginWays.module.scss';
 import * as authService from '~/services/authService';
 import { Context as userLoginContext } from '~/store/UserLoginContext';
 
@@ -12,8 +12,8 @@ const cx = classNames.bind(styles);
 
 const LoginEmailForm = () => {
     // Get login state from UserLoginContext
-    const { loginState } = useContext(userLoginContext);
-    const [isUserLoggedIn, setIsUserLoggedIn] = loginState;
+    const { currentUserState } = useContext(userLoginContext);
+    const [, setCurrentUser] = currentUserState;
 
     // State
     const [usernameValue, setUsernameValue] = useState('');
@@ -22,9 +22,10 @@ const LoginEmailForm = () => {
     const handleLogin = async (username, password) => {
         const data = await authService.login(username, password);
         if (!data.errorCode) {
-            setIsUserLoggedIn(true);
+            setCurrentUser(data);
+            console.log(data);
         } else {
-            setIsUserLoggedIn(false);
+            setCurrentUser({});
             console.log(data.errorCode);
         }
     };

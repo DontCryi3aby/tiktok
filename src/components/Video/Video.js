@@ -11,7 +11,7 @@ import VideoCustom from './VideoCustom';
 import styles from './Video.module.scss';
 import { HeartIcon, CommentIcon, ShareIcon } from '~/components/Icons';
 import { Context } from '~/store/AuthContext';
-import { defaultFn } from '~/store/GlobalFunction';
+import { defaultFn, isEmptyObj } from '~/store/GlobalFunction';
 import AccountPreview from '~/components/AccountPreview';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import { Context as userLoginContext } from '~/store/UserLoginContext';
@@ -23,8 +23,8 @@ function Video({ data }) {
     const { modalRef, ShowModal } = useContext(Context);
 
     // Get data from UserLoginContext
-    const { loginState } = useContext(userLoginContext);
-    const [isUserLoggedIn, setIsUserLoggedIn] = loginState;
+    const { currentUserState } = useContext(userLoginContext);
+    const [currentUser] = currentUserState;
 
     const renderPreview = (attrs) => (
         <div className={cx('preview')} tabIndex="-1" {...attrs}>
@@ -74,7 +74,7 @@ function Video({ data }) {
                     outline
                     small
                     onClick={() => {
-                        !isUserLoggedIn ? ShowModal(modalRef) : defaultFn();
+                        isEmptyObj(currentUser) ? ShowModal(modalRef) : defaultFn();
                     }}
                 >
                     Follow

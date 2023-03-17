@@ -10,8 +10,8 @@ function Home() {
     // State provide value context
     const [volume, setVolume] = useState(1);
     const [isMuted, setIsMuted] = useState(true);
-    const [inViewVideosArr, setInViewVideosArr] = useState([]);
-    const [priorityVideo, setPriorityVideo] = useState({});
+    // const [inViewVideosArr, setInViewVideosArr] = useState([]);
+    // const [priorityVideo, setPriorityVideo] = useState({});
 
     // State
     const [videosList, setVideosList] = useState([]);
@@ -21,16 +21,15 @@ function Home() {
     const contextValue = {
         volumeState: [volume, setVolume],
         mutedState: [isMuted, setIsMuted],
-        inViewVideosArrState: [inViewVideosArr, setInViewVideosArr],
-        priorityVideoState: [priorityVideo, setPriorityVideo],
+        // inViewVideosArrState: [inViewVideosArr, setInViewVideosArr],
+        // priorityVideoState: [priorityVideo, setPriorityVideo],
     };
 
     useEffect(() => {
-        const fetchAPI = async () => {
+        (async () => {
             const data = await videoService.getVideosList({ type: 'for-you', page: page });
             setVideosList((prev) => [...prev, ...data]);
-        };
-        fetchAPI();
+        })();
     }, [page]);
 
     return (

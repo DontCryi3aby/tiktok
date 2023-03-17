@@ -7,3 +7,11 @@ export const PreventDefault = (e) => {
 };
 
 export const defaultFn = () => {};
+
+export const isEmptyObj = (obj) => {
+    return Object.keys(obj).length === 0;
+};
+
+export const reloadPage = () => {
+    window.location.reload();
+};

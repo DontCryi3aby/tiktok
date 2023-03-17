@@ -1,10 +1,10 @@
 import classNames from 'classnames/bind';
-import styles from './LoginWay.module.scss';
+import styles from './LoginWays.module.scss';
 
 const cx = classNames.bind(styles);
 
-const LoginWithEmail = () => {
+const LoginWithQR = () => {
     return <div className={cx('wrapper')}>LOGIN WITH QR</div>;
 };
 
-export default LoginWithEmail;
+export default LoginWithQR;

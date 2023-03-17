@@ -17,9 +17,10 @@ import {
 } from '~/components/Icons';
 import LoginItem from './LoginItem';
 import { Context } from '~/store/AuthContext';
-import LoginWithEmail from './LoginWay/LoginWithEmail';
-import LoginWithQR from './LoginWay/LoginWithQR';
+import LoginWithEmail from './LoginWays/LoginWithEmail';
+import LoginWithQR from './LoginWays/LoginWithQR';
 import { Context as userLoginContext } from '~/store/UserLoginContext';
+import { isEmptyObj } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
 
@@ -98,26 +99,25 @@ const MainModal = () => {
     const { modalRef, HideModal } = useContext(Context);
 
     // Get login state from UserLoginContext
-    const { loginState } = useContext(userLoginContext);
-    const [isUserLoggedIn, setIsUserLoggedIn] = loginState;
+    const { currentUserState } = useContext(userLoginContext);
+    const [currentUser] = currentUserState;
 
     const [isLoginDisplay, setIsLoginDisplay] = useState(true);
 
     const [history, setHistory] = useState([MODAL_LOGIN_DATA]);
-
     const currentTab = history[history.length - 1];
 
     useEffect(() => {
         const List = isLoginDisplay ? MODAL_LOGIN_DATA : MODAL_SIGNUP_DATA;
         setHistory([List]);
-    }, [isLoginDisplay]);
+    }, [isLoginDisplay, currentUser]);
 
     useEffect(() => {
-        if (isUserLoggedIn) {
+        if (!isEmptyObj(currentUser)) {
             HideModal(modalRef);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isUserLoggedIn]);
+    }, [currentUser]);
 
     const toggleBtn = () => {
         setIsLoginDisplay(!isLoginDisplay);
