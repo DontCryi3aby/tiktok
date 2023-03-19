@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { InView } from 'react-intersection-observer';
+import { useInView } from 'react-intersection-observer';
 
 import Video from '~/components/Video';
 import styles from './Home.module.scss';
@@ -10,8 +10,8 @@ function Home() {
     // State provide value context
     const [volume, setVolume] = useState(1);
     const [isMuted, setIsMuted] = useState(true);
-    // const [inViewVideosArr, setInViewVideosArr] = useState([]);
-    // const [priorityVideo, setPriorityVideo] = useState({});
+    const [inViewVideosArr, setInViewVideosArr] = useState([]);
+    const [priorityVideo, setPriorityVideo] = useState({});
 
     // State
     const [videosList, setVideosList] = useState([]);
@@ -21,16 +21,21 @@ function Home() {
     const contextValue = {
         volumeState: [volume, setVolume],
         mutedState: [isMuted, setIsMuted],
-        // inViewVideosArrState: [inViewVideosArr, setInViewVideosArr],
-        // priorityVideoState: [priorityVideo, setPriorityVideo],
+        inViewVideosArrState: [inViewVideosArr, setInViewVideosArr],
+        priorityVideoState: [priorityVideo, setPriorityVideo],
     };
 
+    const { ref, inView } = useInView();
     useEffect(() => {
-        (async () => {
-            const data = await videoService.getVideosList({ type: 'for-you', page: page });
-            setVideosList((prev) => [...prev, ...data]);
-        })();
-    }, [page]);
+        if (inView) {
+            setPage(page + 1);
+            (async () => {
+                const data = await videoService.getVideosList({ type: 'for-you', page: page });
+                setVideosList((prev) => [...prev, ...data]);
+            })();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [inView]);
 
     return (
         <VideoContext value={contextValue}>
@@ -38,11 +43,7 @@ function Home() {
                 {videosList.map((video) => (
                     <Video key={video.id} data={video} />
                 ))}
-                <InView
-                    onChange={(inView, entry) => {
-                        setPage(page + 1);
-                    }}
-                ></InView>
+                <div ref={ref}></div>
             </div>
         </VideoContext>
     );
