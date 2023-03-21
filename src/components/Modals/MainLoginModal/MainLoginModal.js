@@ -48,30 +48,37 @@ const MODAL_LOGIN_DATA = {
         {
             icon: FacebookIcon,
             label: 'Continue with Facebook',
+            disabled: true,
         },
         {
             icon: GoogleIcon,
             label: 'Continue with Google',
+            disabled: true,
         },
         {
             icon: TwitterIcon,
             label: 'Continue with Twitter',
+            disabled: true,
         },
         {
             icon: LineIcon,
             label: 'Continue with LINE',
+            disabled: true,
         },
         {
             icon: KakaoTalkIcon,
             label: 'Continue with KakaoTalk',
+            disabled: true,
         },
         {
             icon: AppleIcon,
             label: 'Continue with Apple',
+            disabled: true,
         },
         {
             icon: InstagramIcon,
             label: 'Continue with Instagram',
+            disabled: true,
         },
     ],
 };
@@ -86,10 +93,12 @@ const MODAL_SIGNUP_DATA = {
         {
             icon: FacebookIcon,
             label: 'Continue with Facebook',
+            disabled: true,
         },
         {
             icon: GoogleIcon,
             label: 'Continue with Google',
+            disabled: true,
         },
     ],
 };
@@ -153,7 +162,7 @@ const MainModal = () => {
                         <div>
                             {currentTab.data.map((item, index) => (
                                 <LoginItem
-                                    className={cx('login-item')}
+                                    className={cx('login-item', { disabled: item.disabled })}
                                     key={index}
                                     icon={<item.icon />}
                                     label={item.label}
@@ -161,7 +170,6 @@ const MainModal = () => {
                                         const isParent = !!item.children;
                                         if (isParent) {
                                             setHistory((prev) => [...prev, item.children]);
-                                        } else {
                                         }
                                     }}
                                 />

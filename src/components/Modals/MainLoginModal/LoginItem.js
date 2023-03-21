@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './MainLoginModal.module.scss';
 import { defaultFn } from '~/store/GlobalFunction';
 
-const LoginItem = ({ className, icon, label, onClick = defaultFn }) => {
+const LoginItem = ({ className, icon, label, onClick = defaultFn, disabled }) => {
     return (
         <div className={className} onClick={onClick}>
             <span className={styles.icon}>{icon}</span>
@@ -17,6 +17,7 @@ LoginItem.propTypes = {
     icon: PropTypes.node.isRequired,
     label: PropTypes.string.isRequired,
     onClick: PropTypes.func,
+    disabled: PropTypes.bool,
 };
 
 export default LoginItem;
