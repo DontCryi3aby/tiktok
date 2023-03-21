@@ -3,10 +3,11 @@ import { createContext, useState } from 'react';
 export const Context = createContext();
 
 const UserLoginContext = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState({});
+    // Get user from local storage
+    const currentUser = JSON.parse(localStorage.getItem('user')) ?? {};
 
     const contextValue = {
-        currentUserState: [currentUser, setCurrentUser],
+        currentUser,
     };
 
     return <Context.Provider value={contextValue}>{children}</Context.Provider>;

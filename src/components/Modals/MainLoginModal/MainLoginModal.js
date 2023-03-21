@@ -99,8 +99,7 @@ const MainModal = () => {
     const { modalRef, HideModal } = useContext(Context);
 
     // Get login state from UserLoginContext
-    const { currentUserState } = useContext(userLoginContext);
-    const [currentUser] = currentUserState;
+    const { currentUser } = useContext(userLoginContext);
 
     const [isLoginDisplay, setIsLoginDisplay] = useState(true);
 

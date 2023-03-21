@@ -95,8 +95,7 @@ const USER_MENU = [
 
 function Header() {
     // Get data from UserLoginContext
-    const { currentUserState } = useContext(userLoginContext);
-    const [currentUser, setCurrentUser] = currentUserState;
+    const { currentUser } = useContext(userLoginContext);
 
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(authContext);
@@ -116,7 +115,7 @@ function Header() {
 
     // Logout Function
     const handleLogout = () => {
-        setCurrentUser({});
+        localStorage.removeItem('user');
         reloadPage();
     };
 

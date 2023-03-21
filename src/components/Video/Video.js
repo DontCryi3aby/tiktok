@@ -23,8 +23,7 @@ function Video({ data }) {
     const { modalRef, ShowModal } = useContext(Context);
 
     // Get data from UserLoginContext
-    const { currentUserState } = useContext(userLoginContext);
-    const [currentUser] = currentUserState;
+    const { currentUser } = useContext(userLoginContext);
 
     const renderPreview = (attrs) => (
         <div className={cx('preview')} tabIndex="-1" {...attrs}>

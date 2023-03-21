@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useRef } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortDown } from '@fortawesome/free-solid-svg-icons';
@@ -6,28 +6,32 @@ import { faSortDown } from '@fortawesome/free-solid-svg-icons';
 import Button from '~/components/Button';
 import styles from './LoginWays.module.scss';
 import * as authService from '~/services/authService';
-import { Context as userLoginContext } from '~/store/UserLoginContext';
+import { reloadPage } from '~/store/GlobalFunction';
+import { EyeClose, EyeOpen } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
 
 const LoginEmailForm = () => {
-    // Get login state from UserLoginContext
-    const { currentUserState } = useContext(userLoginContext);
-    const [, setCurrentUser] = currentUserState;
+    const passwordRef = useRef();
 
     // State
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
+    const [isShowPassword, setIsShowPassword] = useState(false);
 
     const handleLogin = async (username, password) => {
         const data = await authService.login(username, password);
-        if (!data.errorCode) {
-            setCurrentUser(data);
-            console.log(data);
+        if (data.errorCode) {
+            passwordRef.current.classList.add(cx('wrong-password'));
         } else {
-            setCurrentUser({});
-            console.log(data.errorCode);
+            localStorage.setItem('user', JSON.stringify(data));
+            reloadPage();
         }
+    };
+
+    const handleInputPassword = (e) => {
+        passwordRef.current.classList.remove(cx('wrong-password'));
+        setPasswordValue(e.target.value);
     };
 
     return (
@@ -41,15 +45,23 @@ const LoginEmailForm = () => {
                 spellCheck={false}
                 onChange={(e) => setUsernameValue(e.target.value)}
             />
-            <input
-                value={passwordValue}
-                id={styles.password}
-                name="password"
-                type="password"
-                placeholder="Password"
-                spellCheck={false}
-                onChange={(e) => setPasswordValue(e.target.value)}
-            />
+            <div className={cx('password-wrapper')}>
+                <div className={cx('password')} ref={passwordRef}>
+                    <input
+                        value={passwordValue}
+                        id={styles.password}
+                        name="password"
+                        type={isShowPassword ? 'text' : 'password'}
+                        placeholder="Password"
+                        spellCheck={false}
+                        onChange={handleInputPassword}
+                    />
+                    <button className={cx('eye-btn')} onClick={() => setIsShowPassword(!isShowPassword)}>
+                        {isShowPassword ? <EyeOpen /> : <EyeClose />}
+                    </button>
+                </div>
+                <span className={cx('wrong-message')}>Incorrect username or password</span>
+            </div>
             <span className={cx('forgot-btn')}>Forgot password?</span>
             <Button
                 primary

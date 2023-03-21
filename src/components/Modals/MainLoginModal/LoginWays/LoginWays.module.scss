@@ -79,7 +79,7 @@
 
 // Login Email Form
 #username,
-#password {
+.password {
     width: 100%;
     font-size: 1.6rem;
     background-color: rgba(22, 24, 35, 0.06);
@@ -91,6 +91,37 @@
     font-family: 'Proximanova', sans-serif;
     height: 46px;
     border-radius: 4px;
+}
+
+.password {
+    display: flex;
+}
+
+#password {
+    flex: 1;
+    font-size: 1.6rem;
+    font-family: 'Proximanova', sans-serif;
+    background-color: transparent;
+}
+
+.eye-btn {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.wrong-password {
+    border-color: var(--primary-color);
+
+    & ~ .wrong-message {
+        display: block;
+    }
+}
+
+.wrong-message {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    display: none;
 }
 
 .forgot-btn,

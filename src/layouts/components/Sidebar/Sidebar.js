@@ -20,8 +20,7 @@ const cx = classNames.bind(styles);
 
 function Sidebar() {
     // Get data from UserLoginContext
-    const { currentUserState } = useContext(userLoginContext);
-    const [currentUser] = currentUserState;
+    const { currentUser } = useContext(userLoginContext);
 
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(authContext);
