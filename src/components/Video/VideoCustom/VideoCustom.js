@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect, useRef, useState, useContext } from 'react';
+import { useEffect, useRef, useState, useContext, useCallback } from 'react';
 import classNames from 'classnames/bind';
 import { useInView } from 'react-intersection-observer';
 
@@ -7,24 +7,26 @@ import styles from './VideoCustom.module.scss';
 import { PlayIcon, PauseIcon, VolumeIcon, MuteIcon } from '~/components/Icons';
 import { Context } from '~/store/VideoContext';
 import { StopPropagation, PreventDefault } from '~/store/GlobalFunction';
+import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
 
 function VideoCustom({ data }) {
     // Get data from VideoContext
     const { volumeState, mutedState } = useContext(Context);
-    // let { priorityVideoI } = useContext(Context);
 
     // State context
     const [volume, setVolume] = volumeState;
     const [isMuted, setIsMuted] = mutedState;
-    // const [priorityVideo, setPriorityVideo] = priorityVideoState;
-    // const [inViewVideosArr, setInViewVideosArr] = inViewVideosArrState;
 
     // State
     const [isPlaying, setIsPlaying] = useState(true);
 
-    const { ref, inView } = useInView({
+    const {
+        ref: inViewRef,
+        inView,
+        entry,
+    } = useInView({
         threshold: 0.59,
     });
 
@@ -35,12 +37,22 @@ function VideoCustom({ data }) {
 
     // Change data to Camel Case
     const {
+        thumb_url: thumbUrl,
         file_url: fileUrl,
         meta: {
             video: { resolution_x: videoWidth, resolution_y: videoHeight },
         },
     } = data;
     const shapeOfVideo = videoWidth > videoHeight ? 'horizontal' : 'vertical';
+
+    // assign multi ple refs to a component
+    const setRefs = useCallback(
+        (node) => {
+            videoRef.current = node;
+            inViewRef(node);
+        },
+        [inViewRef],
+    );
 
     useEffect(() => {
         if (inView) {
@@ -117,8 +129,17 @@ function VideoCustom({ data }) {
     };
 
     return (
-        <div className={cx('wrapper', shapeOfVideo)} ref={ref}>
-            <video ref={videoRef} width={videoWidth} height={videoHeight} className={cx('video')} src={fileUrl} loop />
+        <div className={cx('wrapper', shapeOfVideo)}>
+            <video
+                ref={setRefs}
+                width={videoWidth}
+                height={videoHeight}
+                className={cx('video')}
+                src={fileUrl}
+                autoPlay={false}
+                loop
+            />
+            {/* <Image width={videoWidth} height={videoHeight} className={cx('thumb', { hidden: inView })} src={thumbUrl} /> */}
             <div className={cx('controls')}>
                 <span className={cx('control', 'play-btn')} onClick={togglePlay}>
                     {isPlaying ? <PauseIcon /> : <PlayIcon />}
