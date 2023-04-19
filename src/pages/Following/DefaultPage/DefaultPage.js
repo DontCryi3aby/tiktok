@@ -8,6 +8,8 @@ const cx = classNames.bind(styles);
 
 const DefaultPage = () => {
     const [listUsers, setListUsers] = useState([]);
+
+    // fetch API
     useEffect(() => {
         (async () => {
             const data = await userService.getSuggested({ page: 1, perPage: 10 });
@@ -17,6 +19,7 @@ const DefaultPage = () => {
 
     const [videoPlay, setVideoPlay] = useState();
 
+    // Handle play video
     useEffect(() => {
         if (videoPlay) {
             videoPlay.play();

@@ -1,29 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import Video from '~/components/Video';
 import styles from './Home.module.scss';
 import VideoContext from '~/store/VideoContext';
 import * as videoService from '~/services/videoService';
+import { Context } from '~/store/GlobalContext';
 
 function Home() {
-    // State provide value context
-    const [volume, setVolume] = useState(1);
-    const [isMuted, setIsMuted] = useState(true);
-    const [inViewVideosArr, setInViewVideosArr] = useState([]);
-    const [priorityVideo, setPriorityVideo] = useState({});
-
     // State
     const [videosList, setVideosList] = useState([]);
     const [page, setPage] = useState(1);
-
-    // Provide value to VideoContext
-    const contextValue = {
-        volumeState: [volume, setVolume],
-        mutedState: [isMuted, setIsMuted],
-        inViewVideosArrState: [inViewVideosArr, setInViewVideosArr],
-        priorityVideoState: [priorityVideo, setPriorityVideo],
-    };
 
     const { ref, inView } = useInView();
     useEffect(() => {
@@ -38,14 +25,12 @@ function Home() {
     }, [inView]);
 
     return (
-        <VideoContext value={contextValue}>
-            <div className={styles.wrapper}>
-                {videosList.map((video) => (
-                    <Video key={video.id} data={video} />
-                ))}
-                <div ref={ref}></div>
-            </div>
-        </VideoContext>
+        <div className={styles.wrapper}>
+            {videosList.map((video) => (
+                <Video key={video.id} data={video} />
+            ))}
+            <div ref={ref}></div>
+        </div>
     );
 }
 

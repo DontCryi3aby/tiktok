@@ -1,38 +1,59 @@
 import { useEffect, useState, useContext } from 'react';
-import { Context as userLoginContext } from '~/store/UserLoginContext';
-import * as userService from '~/services/userService';
+import { useInView } from 'react-intersection-observer';
 import classNames from 'classnames/bind';
+
+import { Context as globalContext } from '~/store/GlobalContext';
+import * as videoService from '~/services/videoService';
 import styles from './Following.module.scss';
 import DefaultPage from './DefaultPage';
+import { isEmptyObj } from '~/store/GlobalFunction';
+import Video from '~/components/Video';
 
 const cx = classNames.bind(styles);
 
 function Following() {
     // Get data from UserLoginContext
-    // const { currentUser } = useContext(userLoginContext);
+    const { currentUser } = useContext(globalContext);
 
-    // const [followingList, setFollowingList] = useState([]);
+    const [page, setPage] = useState(0);
 
-    // useEffect(() => {
-    //     // IIFE
-    //     (async () => {
-    //         const data = await userService.getFollowing({ page: 1, type: 'following' });
-    //         console.log(data);
-    //     })();
-    // }, []);
+    const [followingVideoList, setFollowingVideoList] = useState([]);
 
-    // Fake login:
-    const isLogin = false;
+    const { ref, inView } = useInView();
+
+    useEffect(() => {
+        if (inView) {
+            setPage(page + 1);
+        }
+        // IIFE
+        (async () => {
+            if (!isEmptyObj(currentUser)) {
+                const data = await videoService.getVideosList({
+                    type: 'following',
+                    page: page,
+                    token: currentUser.meta.token,
+                });
+                // console.log(data);
+                setFollowingVideoList((prev) => [...prev, ...data]);
+            }
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [inView]);
 
     return (
         <div className={cx('wrapper')}>
-            {isLogin ? (
-                <></>
-            ) : (
-                <div className={cx('container')}>
+            <div className={cx('container')}>
+                {isEmptyObj(currentUser) ? (
                     <DefaultPage />
-                </div>
-            )}
+                ) : (
+                    <>
+                        {followingVideoList.map((video) => (
+                            <Video key={video.id} data={video} />
+                        ))}
+                        <div ref={ref}></div>
+                    </>
+                )}
+            </div>
         </div>
     );
 }

@@ -8,14 +8,14 @@ import styles from './AccountPreview.module.scss';
 import Image from '~/components/Image';
 import Button from '~/components/Button';
 import { Context as authContext } from '~/store/AuthContext';
-import { Context as userLoginContext } from '~/store/UserLoginContext';
+import { Context as globalContext } from '~/store/GlobalContext';
 import { defaultFn, isEmptyObj } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
 
 function AccountPreview({ data }) {
     // Get data from UserLoginContext
-    const { currentUser } = useContext(userLoginContext);
+    const { currentUser } = useContext(globalContext);
 
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(authContext);

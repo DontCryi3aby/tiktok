@@ -13,14 +13,14 @@ import Button from '~/components/Button';
 import Hashtag from '~/components/Hashtag';
 import MusicTag from '~/components/MusicTag';
 import { Context as authContext } from '~/store/AuthContext';
-import { Context as userLoginContext } from '~/store/UserLoginContext';
+import { Context as globalContext } from '~/store/GlobalContext';
 import { isEmptyObj } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
 
 function Sidebar() {
     // Get data from UserLoginContext
-    const { currentUser } = useContext(userLoginContext);
+    const { currentUser } = useContext(globalContext);
 
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(authContext);

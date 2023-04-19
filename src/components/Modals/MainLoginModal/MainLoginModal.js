@@ -19,7 +19,7 @@ import LoginItem from './LoginItem';
 import { Context } from '~/store/AuthContext';
 import LoginWithEmail from './LoginWays/LoginWithEmail';
 import LoginWithQR from './LoginWays/LoginWithQR';
-import { Context as userLoginContext } from '~/store/UserLoginContext';
+import { Context as globalContext } from '~/store/GlobalContext';
 import { isEmptyObj } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
@@ -108,7 +108,7 @@ const MainModal = () => {
     const { modalRef, HideModal } = useContext(Context);
 
     // Get login state from UserLoginContext
-    const { currentUser } = useContext(userLoginContext);
+    const { currentUser } = useContext(globalContext);
 
     const [isLoginDisplay, setIsLoginDisplay] = useState(true);
 

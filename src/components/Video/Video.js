@@ -14,7 +14,7 @@ import { Context } from '~/store/AuthContext';
 import { defaultFn, isEmptyObj } from '~/store/GlobalFunction';
 import AccountPreview from '~/components/AccountPreview';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
-import { Context as userLoginContext } from '~/store/UserLoginContext';
+import { Context as globalContext } from '~/store/GlobalContext';
 
 const cx = classNames.bind(styles);
 
@@ -23,7 +23,7 @@ function Video({ data }) {
     const { modalRef, ShowModal } = useContext(Context);
 
     // Get data from UserLoginContext
-    const { currentUser } = useContext(userLoginContext);
+    const { currentUser } = useContext(globalContext);
 
     const renderPreview = (attrs) => (
         <div className={cx('preview')} tabIndex="-1" {...attrs}>

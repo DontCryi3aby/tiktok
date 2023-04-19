@@ -25,12 +25,7 @@ const VideoItem = ({ data: user, state }) => {
     const videoRef = useRef();
 
     return (
-        <Link
-            to={`/@${user.nickname}`}
-            className={cx('video-item')}
-            onMouseOver={handlePlayVideo}
-            // onMouseLeave={handleResetVideo}
-        >
+        <Link to={`/@${user.nickname}`} className={cx('video-item')} onMouseOver={handlePlayVideo}>
             <video ref={videoRef} muted className={cx('video')} src={user.popular_video.file_url} />
             <div className={cx('user')}>
                 <Image src={user.avatar} alt={user.nickname} className={cx('avatar')} />

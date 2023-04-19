@@ -14,19 +14,17 @@ export const getSuggested = async ({ page = 1, perPage = 5 }) => {
     }
 };
 
-export const getFollowing = async ({ type, page = 1 }) => {
+export const getFollowing = async ({ page, token }) => {
     try {
-        const res = await httpRequest.get('videos', {
+        const res = await httpRequest.get('me/followings', {
             headers: {
-                Authorization:
-                    'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90aWt0b2suZnVsbHN0YWNrLmVkdS52blwvYXBpXC9hdXRoXC9yZWdpc3RlciIsImlhdCI6MTY3NjgyNzI4NCwiZXhwIjoxNjc5NDE5Mjg0LCJuYmYiOjE2NzY4MjcyODQsImp0aSI6IkJLSFROOFhnMmtqQVp0OEciLCJzdWIiOjQ5NzMsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.W_B2mGlZv30g2uVIVfxiJO9su92Tz6kYgr-eFY2a0Ps',
+                Authorization: `Bearer ${token}`,
             },
             params: {
-                type,
                 page,
             },
         });
-        return res;
+        return res.data;
     } catch (error) {
         console.log(error);
     }

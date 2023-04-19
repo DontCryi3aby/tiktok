@@ -5,7 +5,7 @@ import { useInView } from 'react-intersection-observer';
 
 import styles from './VideoCustom.module.scss';
 import { PlayIcon, PauseIcon, VolumeIcon, MuteIcon } from '~/components/Icons';
-import { Context } from '~/store/VideoContext';
+import { Context } from '~/store/GlobalContext';
 import { StopPropagation, PreventDefault } from '~/store/GlobalFunction';
 import Image from '~/components/Image';
 

@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import ListAccounts from '~/components/ListAccounts';
 import * as userService from '~/services/userService';
+import { isEmptyObj } from '~/store/GlobalFunction';
+import { Context as globalContext } from '~/store/GlobalContext';
 
 function FollowingAccounts() {
-    const INIT_PAGE = 23;
+    // Get data from UserLoginContext
+    const { currentUser } = useContext(globalContext);
 
     const [followingUsers, setFollowingUsers] = useState([]);
 
-    const [page, setPage] = useState(INIT_PAGE);
+    const [page, setPage] = useState(1);
     const [isSeeMore, setIsSeeMore] = useState(true);
     const [isFull, setIsFull] = useState(false);
 
@@ -15,15 +18,19 @@ function FollowingAccounts() {
     let titleBtn = isSeeMore && isFull ? 'See less' : 'See more';
     // Get following users
     useEffect(() => {
-        const fetchAPI = async () => {
-            const followingUsersResult = await userService.getSuggested({ page: page, perPage: 5 });
-            if (followingUsersResult.length === 0) {
-                setIsFull(true);
-            } else {
-                setFollowingUsers((prev) => [...prev, ...followingUsersResult]);
+        (async () => {
+            if (!isEmptyObj(currentUser)) {
+                const data = await userService.getFollowing({
+                    page: page,
+                    token: currentUser.meta.token,
+                });
+                if (data.length <= 0) {
+                    setIsFull(true);
+                } else {
+                    setFollowingUsers((prev) => [...prev, ...data]);
+                }
             }
-        };
-        fetchAPI();
+        })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 

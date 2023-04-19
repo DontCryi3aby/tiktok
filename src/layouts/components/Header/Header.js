@@ -26,7 +26,7 @@ import Menu from '~/components/Popper/Menu';
 import Search from '../Search';
 import styles from './Header.module.scss';
 import { Context as authContext } from '~/store/AuthContext';
-import { Context as userLoginContext } from '~/store/UserLoginContext';
+import { Context as globalContext } from '~/store/GlobalContext';
 import { defaultFn, isEmptyObj, reloadPage } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
@@ -95,7 +95,7 @@ const USER_MENU = [
 
 function Header() {
     // Get data from UserLoginContext
-    const { currentUser } = useContext(userLoginContext);
+    const { currentUser } = useContext(globalContext);
 
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(authContext);
@@ -152,7 +152,7 @@ function Header() {
                                 </button>
                             </Tippy>
                             <Menu items={USER_MENU} onChange={handleMenuChange}>
-                                <Image className={cx('user-avatar')} src={currentUser.avatar} alt="avatar" />
+                                <Image className={cx('user-avatar')} src={currentUser.data.avatar} alt="avatar" />
                             </Menu>
                         </>
                     ) : (
