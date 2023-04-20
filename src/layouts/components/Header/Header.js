@@ -16,6 +16,7 @@ import classNames from 'classnames/bind';
 import 'tippy.js/dist/tippy.css';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
+import PropTypes from 'prop-types';
 
 import config from '~/config';
 import images from '~/assets/images';
@@ -93,7 +94,7 @@ const USER_MENU = [
     },
 ];
 
-function Header() {
+function Header({ isFullScreen = false }) {
     // Get data from UserLoginContext
     const { currentUser } = useContext(globalContext);
 
@@ -121,7 +122,7 @@ function Header() {
 
     return (
         <header className={cx('wrapper')}>
-            <div className={cx('inner')}>
+            <div className={cx('inner', { fullscreen: isFullScreen })}>
                 <Link to={config.routes.home} className={cx('logo-link')}>
                     <Image src={images.logo} alt="Tiktok" />
                 </Link>
@@ -174,3 +175,7 @@ function Header() {
 }
 
 export default Header;
+
+Header.propTypes = {
+    className: PropTypes.string,
+};

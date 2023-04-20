@@ -4,14 +4,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from './components/GlobalStyles';
 import GlobalContext from '~/store/GlobalContext';
+import MainLoginModal from '~/components/Modals/MainLoginModal';
+import AuthContext from '~/store/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // <React.StrictMode>
     <GlobalContext>
-        <GlobalStyles>
-            <App />
-        </GlobalStyles>
+        <AuthContext>
+            <GlobalStyles>
+                <App />
+                <MainLoginModal />
+            </GlobalStyles>
+        </AuthContext>
     </GlobalContext>,
     // </React.StrictMode>,
 );

@@ -13,5 +13,9 @@
 
 .content {
     float: right;
-    width: calc(var(--default-layout-width) * 0.6);
+    width: calc(var(--fullspace-layout-width) * 0.7);
+}
+
+.fullscreen {
+    width: 100%;
 }
