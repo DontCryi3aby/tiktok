@@ -1,7 +1,7 @@
 import config from '~/config';
 
 // Layouts
-import { HeaderOnly } from '~/layouts';
+import { HeaderOnly, FullScreen } from '~/layouts';
 
 import Home from '~/pages/Home';
 import Following from '~/pages/Following';
@@ -13,7 +13,7 @@ import Live from '~/pages/Live';
 export const publicRoutes = [
     { path: config.routes.home, component: Home },
     { path: config.routes.following, component: Following },
-    { path: config.routes.live, component: Live },
+    { path: config.routes.live, component: Live, layout: FullScreen },
     { path: config.routes.profile, component: Profile },
     { path: config.routes.upload, component: Upload, layout: HeaderOnly },
     { path: config.routes.search, component: Search, layout: null },

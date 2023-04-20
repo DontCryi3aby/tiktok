@@ -18,7 +18,7 @@ import { Context as globalContext } from '~/store/GlobalContext';
 
 const cx = classNames.bind(styles);
 
-function Video({ data }) {
+function Video({ data, type = 'suggested' }) {
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(Context);
 
@@ -68,16 +68,18 @@ function Video({ data }) {
                         <p className={cx('caption')}>{data.description}</p>
                     </div>
                 </div>
-                <Button
-                    className={cx('follow-btn')}
-                    outline
-                    small
-                    onClick={() => {
-                        isEmptyObj(currentUser) ? ShowModal(modalRef) : defaultFn();
-                    }}
-                >
-                    Follow
-                </Button>
+                {type === 'suggested' && (
+                    <Button
+                        className={cx('follow-btn')}
+                        outline
+                        small
+                        onClick={() => {
+                            isEmptyObj(currentUser) ? ShowModal(modalRef) : defaultFn();
+                        }}
+                    >
+                        Follow
+                    </Button>
+                )}
             </header>
             <div className={cx('music-tag')}>
                 <MusicTag className={cx('tag')} label={data.music} />
@@ -109,6 +111,7 @@ function Video({ data }) {
 
 Video.propTypes = {
     data: PropTypes.object.isRequired,
+    type: PropTypes.string,
 };
 
 export default Video;

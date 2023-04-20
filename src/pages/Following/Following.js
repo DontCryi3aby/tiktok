@@ -48,7 +48,7 @@ function Following() {
                 ) : (
                     <>
                         {followingVideoList.map((video) => (
-                            <Video key={video.id} data={video} />
+                            <Video key={video.id} data={video} type="following" />
                         ))}
                         <div ref={ref}></div>
                     </>

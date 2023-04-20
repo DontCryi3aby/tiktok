@@ -16,7 +16,7 @@ import {
     BackIcon,
 } from '~/components/Icons';
 import LoginItem from './LoginItem';
-import { Context } from '~/store/AuthContext';
+import { Context as authContext } from '~/store/AuthContext';
 import LoginWithEmail from './LoginWays/LoginWithEmail';
 import LoginWithQR from './LoginWays/LoginWithQR';
 import { Context as globalContext } from '~/store/GlobalContext';
@@ -105,7 +105,7 @@ const MODAL_SIGNUP_DATA = {
 
 const MainModal = () => {
     // Get data from AuthContext
-    const { modalRef, HideModal } = useContext(Context);
+    const { modalRef, HideModal } = useContext(authContext);
 
     // Get login state from UserLoginContext
     const { currentUser } = useContext(globalContext);

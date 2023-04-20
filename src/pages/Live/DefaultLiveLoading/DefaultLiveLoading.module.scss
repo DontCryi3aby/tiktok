@@ -1,0 +1,28 @@
+.container {
+    background-color: var(--black);
+    width: 100%;
+    height: 600px;
+    margin-top: 20px;
+    display: grid;
+}
+.inner {
+    margin: auto;
+    text-align: center;
+}
+.title {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 2.4rem;
+}
+.instruction {
+    font-size: 1.6rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+.btn {
+    color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    font-size: 1.6rem;
+    font-family: 'ProximaNova', serif;
+    cursor: pointer;
+    margin-top: 10px;
+}

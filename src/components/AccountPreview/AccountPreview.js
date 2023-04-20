@@ -28,7 +28,7 @@ function AccountPreview({ data }) {
                     primary
                     className={cx('follow-btn')}
                     onClick={() => {
-                        !isEmptyObj(currentUser) ? ShowModal(modalRef) : defaultFn();
+                        isEmptyObj(currentUser) ? ShowModal(modalRef) : defaultFn();
                     }}
                 >
                     Follow

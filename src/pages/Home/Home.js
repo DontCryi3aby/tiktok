@@ -1,16 +1,14 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import Video from '~/components/Video';
 import styles from './Home.module.scss';
-import VideoContext from '~/store/VideoContext';
 import * as videoService from '~/services/videoService';
-import { Context } from '~/store/GlobalContext';
 
 function Home() {
     // State
     const [videosList, setVideosList] = useState([]);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(Math.floor(Math.random() * 5));
 
     const { ref, inView } = useInView();
     useEffect(() => {
