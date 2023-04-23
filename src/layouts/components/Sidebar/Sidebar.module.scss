@@ -9,6 +9,10 @@
     &:hover {
         overflow-y: overlay;
     }
+
+    &.fullscreen {
+        width: var(--fullscreen-layout-sidebar-width);
+    }
 }
 
 // Login Notify

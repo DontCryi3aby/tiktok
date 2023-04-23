@@ -1,0 +1,207 @@
+.wrapper {
+}
+
+// User
+.user {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+}
+.info {
+}
+.account-wrapper {
+    display: flex;
+}
+.avatar {
+    width: 116px;
+    height: 116px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.account {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    width: 400px;
+}
+.nickname {
+    font-family: 'SofiaPro', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+}
+.name {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+.btns {
+    width: 220px;
+    height: 36px;
+    display: flex;
+    margin-top: 6px;
+
+    .inbox-btn {
+        flex: 1;
+    }
+
+    .unfollow-btn {
+        min-width: unset;
+        width: 36px;
+        padding-right: 5px;
+    }
+
+    .follow-btn {
+        width: 100%;
+    }
+}
+.follows {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+
+    .value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        font-family: 'SofiaPro', sans-serif;
+        margin-right: 4px;
+    }
+}
+.following,
+.followers,
+.likes {
+    margin-right: 20px;
+}
+.contact {
+    margin-top: 10px;
+}
+
+.link {
+    font-size: 1.6rem;
+    font-family: 'SofiaPro', sans-serif;
+    font-weight: 600;
+    display: block;
+
+    &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+.actions {
+    display: flex;
+    margin-top: 10px;
+
+    .share-icon,
+    .more-icon {
+        cursor: pointer;
+    }
+
+    .more-icon {
+        margin-left: 15px;
+    }
+}
+
+// Video
+
+.videos-wrapper {
+}
+.videos-type {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 44px;
+    width: 250px;
+    font-size: 1.8rem;
+    font-family: 'SofiaPro', sans-serif;
+    font-weight: 600;
+    border-bottom: 2px solid rgba($color: #000000, $alpha: 0.05);
+}
+
+.type {
+    flex: 1;
+    line-height: 44px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(22, 24, 35, 0.5);
+
+    &.active {
+        color: rgb(22, 24, 35);
+    }
+
+    &:first-child {
+        &:hover ~ .line,
+        &.active ~ .line {
+            transform: translateX(0) !important;
+        }
+
+        &.active ~ .line {
+            transform: translateX(0);
+        }
+    }
+
+    &:nth-child(2) {
+        &:hover ~ .line {
+            transform: translateX(100%) !important;
+        }
+
+        &.active ~ .line {
+            transform: translateX(100%);
+        }
+    }
+}
+
+.lock-icon {
+    margin-right: 6px;
+    pointer-events: none;
+}
+
+.line {
+    position: absolute;
+    width: 50%;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    background-color: rgb(22, 24, 35);
+    transition: 0.15s;
+}
+
+.videos-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(186px, 1fr));
+    grid-gap: 16px;
+    margin-top: 15px;
+}
+
+.video {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.video-item {
+    position: relative;
+}
+
+.views-wrap {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 15px;
+    left: 12px;
+    color: var(--white);
+    font-weight: 600;
+}
+
+.views {
+    margin-left: 4px;
+}
+
+.caption {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

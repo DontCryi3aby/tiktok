@@ -15,7 +15,7 @@ function Following() {
     // Get data from UserLoginContext
     const { currentUser } = useContext(globalContext);
 
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
 
     const [followingVideoList, setFollowingVideoList] = useState([]);
 
@@ -24,19 +24,19 @@ function Following() {
     useEffect(() => {
         if (inView) {
             setPage(page + 1);
+            // IIFE
+            (async () => {
+                if (!isEmptyObj(currentUser)) {
+                    const data = await videoService.getVideosList({
+                        type: 'following',
+                        page: page,
+                        token: currentUser.meta.token,
+                    });
+                    // console.log(data);
+                    setFollowingVideoList((prev) => [...prev, ...data]);
+                }
+            })();
         }
-        // IIFE
-        (async () => {
-            if (!isEmptyObj(currentUser)) {
-                const data = await videoService.getVideosList({
-                    type: 'following',
-                    page: page,
-                    token: currentUser.meta.token,
-                });
-                // console.log(data);
-                setFollowingVideoList((prev) => [...prev, ...data]);
-            }
-        })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inView]);
 

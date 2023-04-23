@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopyright } from '@fortawesome/free-regular-svg-icons';
 import classNames from 'classnames/bind';
+import PropTypes from 'prop-types';
 
 import styles from './Sidebar.module.scss';
 import config from '~/config';
@@ -18,15 +19,17 @@ import { isEmptyObj } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
 
-function Sidebar() {
+function Sidebar({ type = '' }) {
     // Get data from UserLoginContext
     const { currentUser } = useContext(globalContext);
 
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(authContext);
 
+    // type: "fullscreen", ...
+
     return (
-        <aside className={cx('wrapper')}>
+        <aside className={cx('wrapper', type)}>
             <Menu>
                 <MenuItem title="For You" to={config.routes.home} icon={<HomeIcon />} />
                 <MenuItem title="Following" to={config.routes.following} icon={<UserGroupIcon />} />
@@ -112,3 +115,7 @@ function Sidebar() {
 }
 
 export default Sidebar;
+
+Sidebar.propTypes = {
+    type: PropTypes.string,
+};

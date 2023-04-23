@@ -8,7 +8,7 @@ function FullScreen({ children }) {
         <div className={styles.wrapper}>
             <Header isFullScreen />
             <div className={styles.container}>
-                <Sidebar />
+                <Sidebar type="fullscreen" />
                 <div className={styles.content}>{children}</div>
             </div>
         </div>

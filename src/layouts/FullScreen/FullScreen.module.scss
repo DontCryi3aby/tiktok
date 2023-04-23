@@ -5,15 +5,17 @@
 }
 
 .container {
-    width: var(--fullspace-layout-width);
+    width: var(--fullscreen-layout-width);
     max-width: 100%;
     padding: 0 20px;
     margin-top: var(--default-layout-header-height);
 }
 
 .content {
-    float: right;
-    width: calc(var(--fullspace-layout-width) * 0.7);
+    margin-top: 20px;
+    padding-left: 20px;
+    margin-left: var(--fullscreen-layout-sidebar-width);
+    width: calc(100vw - var(--fullscreen-layout-sidebar-width) - 40px);
 }
 
 .fullscreen {
