@@ -29,3 +29,16 @@ export const getFollowing = async ({ page, token }) => {
         console.log(error);
     }
 };
+
+export const getAnUser = async ({ nicknameParam, token }) => {
+    try {
+        const res = await httpRequest.get(`/users/${nicknameParam}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};

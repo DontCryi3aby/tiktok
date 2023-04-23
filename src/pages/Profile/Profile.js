@@ -1,21 +1,32 @@
 import classNames from 'classnames/bind';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import styles from './Profile.module.scss';
 import Button from '~/components/Button';
 import { ShareAccount, MoreAccount, FollowedUser, Lock, Triangle } from '~/components/Icons';
+import * as userService from '~/services/userService';
+import { Context } from '~/store/GlobalContext';
+import { isEmptyObj } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
 
 function Profile() {
-    const websiteUrl = false;
-    const facebookUrl = false;
-    const youtubeUrl = false;
-    const twitterUrl = false;
-    const instagramUrl = false;
+    const { nickname: nicknameParam } = useParams();
+    const [user, setUser] = useState({});
 
-    const isFollow = false;
+    const { currentUser } = useContext(Context);
 
+    useEffect(() => {
+        (async () => {
+            const token = !isEmptyObj(currentUser) ? currentUser.meta.token : '';
+            const data = await userService.getAnUser({ nicknameParam, token });
+            console.log(data);
+            setUser(data);
+        })();
+    }, [currentUser, nicknameParam]);
+
+    // Ref
     const typeVideoRef = useRef();
     const typeLikedRef = useRef();
 
@@ -30,16 +41,12 @@ function Profile() {
             <div className={cx('user')}>
                 <div className={cx('info')}>
                     <div className={cx('account-wrapper')}>
-                        <img
-                            className={cx('avatar')}
-                            src="https://images4.alphacoders.com/120/thumbbig-1205177.webp"
-                            alt="avatar"
-                        />
+                        <img className={cx('avatar')} src={user.avatar} alt="avatar" />
                         <div className={cx('account')}>
-                            <h2 className={cx('nickname')}>thanhthao15.03</h2>
-                            <p className={cx('name')}>Nguyen Thanh Thao</p>
+                            <h2 className={cx('nickname')}>{user.nickname}</h2>
+                            <p className={cx('name')}>{`${user.first_name} ${user.last_name}`}</p>
                             <div className={cx('btns')}>
-                                {!isFollow ? (
+                                {user.is_followed ? (
                                     <>
                                         <Button className={cx('inbox-btn')} outline>
                                             Messages
@@ -56,40 +63,40 @@ function Profile() {
                     </div>
                     <div className={cx('follows')}>
                         <p className={cx('following')}>
-                            <span className={cx('value')}>19</span>Following
+                            <span className={cx('value')}>{user.followings_count}</span>Following
                         </p>
                         <p className={cx('followers')}>
-                            <span className={cx('value')}>333.6K</span>Followers
+                            <span className={cx('value')}>{user.followers_count}</span>Followers
                         </p>
                         <p className={cx('likes')}>
-                            <span className={cx('value')}>8.6M</span>Likes
+                            <span className={cx('value')}>{user.likes_count}</span>Likes
                         </p>
                     </div>
-                    <p className={cx('contact')}>Contact: tht15112003@gmail.com</p>
+                    <p className={cx('bio')}>{user.bio}</p>
 
-                    {websiteUrl && (
-                        <a className={cx('link')} href={websiteUrl}>
-                            xxx.stone.com.vn
+                    {user.website_url && (
+                        <a className={cx('link')} href={user.website_url}>
+                            {user.website_url}
                         </a>
                     )}
-                    {websiteUrl && (
-                        <a className={cx('link')} href={facebookUrl}>
-                            xxx.stone.com.vn
+                    {user.facebook_url && (
+                        <a className={cx('link')} href={user.facebook_url}>
+                            {user.facebook_url}
                         </a>
                     )}
-                    {youtubeUrl && (
-                        <a className={cx('link')} href={youtubeUrl}>
-                            {youtubeUrl}
+                    {user.youtube_url && (
+                        <a className={cx('link')} href={user.youtube_url}>
+                            {user.youtube_url}
                         </a>
                     )}
-                    {twitterUrl && (
-                        <a className={cx('link')} href={twitterUrl}>
-                            {twitterUrl}
+                    {user.instagram_url && (
+                        <a className={cx('link')} href={user.instagram_url}>
+                            {user.instagram_url}
                         </a>
                     )}
-                    {instagramUrl && (
-                        <a className={cx('link')} href={instagramUrl}>
-                            {instagramUrl}
+                    {user.twitter_url && (
+                        <a className={cx('link')} href={user.twitter_url}>
+                            {user.twitter_url}
                         </a>
                     )}
                 </div>
@@ -110,150 +117,19 @@ function Profile() {
                     <p className={cx('line')}></p>
                 </div>
                 <div className={cx('videos-list')}>
-                    <div className={cx('video-div')}>
-                        <div className={cx('video-item')}>
-                            <video
-                                className={cx('video')}
-                                src="https://files.fullstack.edu.vn/f8-tiktok/videos/8-630268a08faa9.mp4"
-                                muted
-                                autoPlay
-                                loop
-                            />
+                    {!isEmptyObj(user) &&
+                        user.videos.map((video) => (
+                            <div className={cx('video-div')} key={video.id}>
+                                <div className={cx('video-item')}>
+                                    <video className={cx('video')} src={video.file_url} muted autoPlay loop />
 
-                            <p className={cx('views-wrap')}>
-                                <Triangle /> <span className={cx('views')}>14.7K</span>
-                            </p>
-                        </div>
-                        <p className={cx('caption')}>
-                            Câu chuyện chàng trai đứng dừng đèn đỏ và cô gái nhỏ ở phía bên kia...
-                        </p>
-                    </div>
-                    <div className={cx('video-div')}>
-                        <div className={cx('video-item')}>
-                            <video
-                                className={cx('video')}
-                                src="https://files.fullstack.edu.vn/f8-tiktok/videos/8-630268a08faa9.mp4"
-                                muted
-                                autoPlay
-                                loop
-                            />
-
-                            <p className={cx('views-wrap')}>
-                                <Triangle /> <span className={cx('views')}>14.7K</span>
-                            </p>
-                        </div>
-                        <p className={cx('caption')}>
-                            Câu chuyện chàng trai đứng dừng đèn đỏ và cô gái nhỏ ở phía bên kia...
-                        </p>
-                    </div>
-                    <div className={cx('video-div')}>
-                        <div className={cx('video-item')}>
-                            <video
-                                className={cx('video')}
-                                src="https://files.fullstack.edu.vn/f8-tiktok/videos/8-630268a08faa9.mp4"
-                                muted
-                                autoPlay
-                                loop
-                            />
-
-                            <p className={cx('views-wrap')}>
-                                <Triangle /> <span className={cx('views')}>14.7K</span>
-                            </p>
-                        </div>
-                        <p className={cx('caption')}>
-                            Câu chuyện chàng trai đứng dừng đèn đỏ và cô gái nhỏ ở phía bên kia...
-                        </p>
-                    </div>
-                    <div className={cx('video-div')}>
-                        <div className={cx('video-item')}>
-                            <video
-                                className={cx('video')}
-                                src="https://files.fullstack.edu.vn/f8-tiktok/videos/8-630268a08faa9.mp4"
-                                muted
-                                autoPlay
-                                loop
-                            />
-
-                            <p className={cx('views-wrap')}>
-                                <Triangle /> <span className={cx('views')}>14.7K</span>
-                            </p>
-                        </div>
-                        <p className={cx('caption')}>
-                            Câu chuyện chàng trai đứng dừng đèn đỏ và cô gái nhỏ ở phía bên kia...
-                        </p>
-                    </div>
-                    <div className={cx('video-div')}>
-                        <div className={cx('video-item')}>
-                            <video
-                                className={cx('video')}
-                                src="https://files.fullstack.edu.vn/f8-tiktok/videos/8-630268a08faa9.mp4"
-                                muted
-                                autoPlay
-                                loop
-                            />
-
-                            <p className={cx('views-wrap')}>
-                                <Triangle /> <span className={cx('views')}>14.7K</span>
-                            </p>
-                        </div>
-                        <p className={cx('caption')}>
-                            Câu chuyện chàng trai đứng dừng đèn đỏ và cô gái nhỏ ở phía bên kia...
-                        </p>
-                    </div>
-                    <div className={cx('video-div')}>
-                        <div className={cx('video-item')}>
-                            <video
-                                className={cx('video')}
-                                src="https://files.fullstack.edu.vn/f8-tiktok/videos/8-630268a08faa9.mp4"
-                                muted
-                                autoPlay
-                                loop
-                            />
-
-                            <p className={cx('views-wrap')}>
-                                <Triangle /> <span className={cx('views')}>14.7K</span>
-                            </p>
-                        </div>
-                        <p className={cx('caption')}>
-                            Câu chuyện chàng trai đứng dừng đèn đỏ và cô gái nhỏ ở phía bên kia...
-                        </p>
-                    </div>
-                    <div className={cx('video-div')}>
-                        <div className={cx('video-item')}>
-                            <video
-                                className={cx('video')}
-                                src="https://files.fullstack.edu.vn/f8-tiktok/videos/8-630268a08faa9.mp4"
-                                muted
-                                autoPlay
-                                loop
-                            />
-
-                            <p className={cx('views-wrap')}>
-                                <Triangle /> <span className={cx('views')}>14.7K</span>
-                            </p>
-                        </div>
-                        <p className={cx('caption')}>
-                            Câu chuyện chàng trai đứng dừng đèn đỏ và cô gái nhỏ ở phía bên kia...
-                        </p>
-                    </div>
-                    <div className={cx('video-div')}>
-                        <div className={cx('video-item')}>
-                            <video
-                                className={cx('video')}
-                                src="https://files.fullstack.edu.vn/f8-tiktok/videos/8-630268a08faa9.mp4"
-                                muted
-                                autoPlay
-                                loop
-                            />
-
-                            <p className={cx('views-wrap')}>
-                                <Triangle /> <span className={cx('views')}>14.7K</span>
-                            </p>
-                        </div>
-                        <p className={cx('caption')}>
-                            Câu chuyện chàng trai đứng dừng đèn đỏ và cô gái nhỏ ở phía bên kia...
-                        </p>
-                    </div>
+                                    <p className={cx('views-wrap')}>
+                                        <Triangle /> <span className={cx('views')}>{video.views_count}</span>
+                                    </p>
+                                </div>
+                                <p className={cx('caption')}>{video.description}</p>
+                            </div>
+                        ))}
                 </div>
             </div>
         </div>

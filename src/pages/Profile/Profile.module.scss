@@ -1,13 +1,8 @@
-.wrapper {
-}
-
 // User
 .user {
     width: 60%;
     display: flex;
     justify-content: space-between;
-}
-.info {
 }
 .account-wrapper {
     display: flex;
@@ -70,7 +65,7 @@
 .likes {
     margin-right: 20px;
 }
-.contact {
+.bio {
     margin-top: 10px;
 }
 
@@ -101,9 +96,6 @@
 }
 
 // Video
-
-.videos-wrapper {
-}
 .videos-type {
     position: relative;
     display: flex;
@@ -176,6 +168,7 @@
 
 .video {
     width: 100%;
+    min-height: 342.5px;
     object-fit: cover;
     border-radius: 5px;
 }
