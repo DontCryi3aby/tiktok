@@ -32,6 +32,7 @@ import { defaultFn, isEmptyObj, reloadPage } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
 
+// Hard code Menu Items
 const MENU_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faLanguage} />,
@@ -63,11 +64,11 @@ const MENU_ITEMS = [
     },
 ];
 
+// Hard code User Menu
 const USER_MENU = [
     {
         icon: <FontAwesomeIcon icon={faUser} />,
         title: 'View profile',
-        to: '/@thach02hp',
     },
     {
         icon: <FontAwesomeIcon icon={faCoins} />,
@@ -97,6 +98,13 @@ const USER_MENU = [
 function Header({ isFullScreen = false }) {
     // Get data from UserLoginContext
     const { currentUser } = useContext(globalContext);
+    if (!isEmptyObj(currentUser)) {
+        USER_MENU[0].to = `/@${currentUser.data.nickname}`;
+    } else {
+        if (USER_MENU[0].to) {
+            delete USER_MENU[0].to;
+        }
+    }
 
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(authContext);

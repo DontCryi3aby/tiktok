@@ -32,7 +32,6 @@ function Following() {
                         page: page,
                         token: currentUser.meta.token,
                     });
-                    // console.log(data);
                     setFollowingVideoList((prev) => [...prev, ...data]);
                 }
             })();

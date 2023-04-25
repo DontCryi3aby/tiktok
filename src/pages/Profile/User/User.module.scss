@@ -1,0 +1,95 @@
+.wrapper {
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+}
+.account-wrapper {
+    display: flex;
+}
+.avatar {
+    width: 116px;
+    height: 116px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.account {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    width: 400px;
+}
+.nickname {
+    font-family: 'SofiaPro', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+}
+.name {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+.btns {
+    width: 220px;
+    height: 36px;
+    display: flex;
+    margin-top: 6px;
+
+    .inbox-btn {
+        flex: 1;
+    }
+
+    .unfollow-btn {
+        min-width: unset;
+        width: 36px;
+        padding-right: 5px;
+    }
+
+    .follow-btn {
+        width: 100%;
+    }
+}
+.follows {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+
+    .value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        font-family: 'SofiaPro', sans-serif;
+        margin-right: 4px;
+    }
+}
+.following,
+.followers,
+.likes {
+    margin-right: 20px;
+}
+.bio {
+    margin-top: 10px;
+}
+
+.link {
+    font-size: 1.6rem;
+    font-family: 'SofiaPro', sans-serif;
+    font-weight: 600;
+    display: block;
+
+    &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+.actions {
+    display: flex;
+    margin-top: 10px;
+
+    .share-icon,
+    .more-icon {
+        cursor: pointer;
+    }
+
+    .more-icon {
+        margin-left: 15px;
+    }
+}
