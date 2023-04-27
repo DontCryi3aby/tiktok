@@ -42,3 +42,31 @@ export const getAnUser = async ({ nicknameParam, token }) => {
         console.log(error);
     }
 };
+
+export const follow = async ({ id, token }) => {
+    try {
+        console.log(id, token);
+        const res = await httpRequest.post(`/users/${id}/follow`, [], {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const unfollow = async ({ id, token }) => {
+    try {
+        console.log(id, token);
+        const res = await httpRequest.post(`/users/${id}/unfollow`, [], {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};

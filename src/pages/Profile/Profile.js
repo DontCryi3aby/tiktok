@@ -22,7 +22,6 @@ function Profile() {
         (async () => {
             const token = !isEmptyObj(currentUser) ? currentUser.meta.token : '';
             const data = await userService.getAnUser({ nicknameParam, token });
-            console.log(data);
             setUser(data);
         })();
     }, [currentUser, nicknameParam]);

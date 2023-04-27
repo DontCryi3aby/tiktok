@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import Tippy from '@tippyjs/react/headless';
 
 import Button from '~/components/Button';
@@ -11,10 +11,11 @@ import VideoCustom from './VideoCustom';
 import styles from './Video.module.scss';
 import { HeartIcon, CommentIcon, ShareIcon } from '~/components/Icons';
 import { Context } from '~/store/AuthContext';
-import { defaultFn, isEmptyObj } from '~/store/GlobalFunction';
+import { isEmptyObj } from '~/store/GlobalFunction';
 import AccountPreview from '~/components/AccountPreview';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import { Context as globalContext } from '~/store/GlobalContext';
+import * as userService from '~/services/userService';
 
 const cx = classNames.bind(styles);
 
@@ -24,6 +25,24 @@ function Video({ data, type = 'suggested' }) {
 
     // Get data from UserLoginContext
     const { currentUser } = useContext(globalContext);
+
+    const [isFollowed, setIsFollowed] = useState(data.user.is_followed);
+
+    useEffect(() => {
+        setIsFollowed(data.user.is_followed);
+    }, [data.user.is_followed]);
+
+    const handleFollow = async () => {
+        if (!isEmptyObj(currentUser)) {
+            if (!isFollowed) {
+                await userService.follow({ id: data.user_id, token: currentUser.meta.token });
+                setIsFollowed(true);
+            } else {
+                await userService.unfollow({ id: data.user_id, token: currentUser.meta.token });
+                setIsFollowed(false);
+            }
+        }
+    };
 
     const renderPreview = (attrs) => (
         <div className={cx('preview')} tabIndex="-1" {...attrs}>
@@ -71,13 +90,13 @@ function Video({ data, type = 'suggested' }) {
                 {type === 'suggested' && (
                     <Button
                         className={cx('follow-btn')}
-                        outline
+                        outline={!isFollowed}
                         small
                         onClick={() => {
-                            isEmptyObj(currentUser) ? ShowModal(modalRef) : defaultFn();
+                            isEmptyObj(currentUser) ? ShowModal(modalRef) : handleFollow();
                         }}
                     >
-                        Follow
+                        {isFollowed ? 'Following' : 'Follow'}
                     </Button>
                 )}
             </header>

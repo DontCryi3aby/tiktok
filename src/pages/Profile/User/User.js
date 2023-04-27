@@ -1,15 +1,80 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
+import Tooltip from '@tippyjs/react';
+import Tippy from '@tippyjs/react/headless';
 
 import Button from '~/components/Button';
-import { ShareAccount, MoreAccount, FollowedUser } from '~/components/Icons';
+import {
+    ShareAccount,
+    MoreAccount,
+    FollowedUser,
+    CopyLinkIcon,
+    FacebookIcon,
+    EmbedIcon,
+    TwitterIcon,
+    LineIcon,
+} from '~/components/Icons';
 import styles from './User.module.scss';
 import Image from '~/components/Image';
+import { Context as authContext } from '~/store/AuthContext';
+import { Context as globalContext } from '~/store/GlobalContext';
+import { isEmptyObj } from '~/store/GlobalFunction';
+import { Wrapper as PopperWrapper } from '~/components/Popper';
+import * as userService from '~/services/userService';
 
 const cx = classNames.bind(styles);
 
 const User = ({ data: user }) => {
+    // Get data from context
+    const { modalRef, ShowModal } = useContext(authContext);
+    const { currentUser } = useContext(globalContext);
+
+    // Get follow state context
+    const [isFollowed, setIsFollowed] = useState(user.is_followed);
+
+    useEffect(() => {
+        setIsFollowed(user.is_followed);
+    }, [user.is_followed]);
+
+    const SHARE_MENU = [
+        {
+            icon: EmbedIcon,
+            title: 'Embed',
+        },
+        {
+            icon: FacebookIcon,
+            title: 'Share to Facebook',
+            to: 'facebook.com',
+        },
+        {
+            icon: LineIcon,
+            title: 'Share to Line',
+            to: 'Line.me',
+        },
+
+        {
+            icon: TwitterIcon,
+            title: 'Share to Twitter',
+            to: 'https://twitter.com/',
+        },
+        {
+            icon: CopyLinkIcon,
+            title: 'Copy link',
+        },
+    ];
+
+    const followUser = async () => {
+        await userService.follow({ id: user.id, token: currentUser.meta.token });
+        setIsFollowed(true);
+    };
+
+    const unfollowUser = async () => {
+        await userService.unfollow({ id: user.id, token: currentUser.meta.token });
+        setIsFollowed(false);
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('info')}>
@@ -19,15 +84,27 @@ const User = ({ data: user }) => {
                         <h2 className={cx('nickname')}>{user.nickname}</h2>
                         <p className={cx('name')}>{`${user.first_name} ${user.last_name}`}</p>
                         <div className={cx('btns')}>
-                            {user.is_followed ? (
+                            {isFollowed ? (
                                 <>
                                     <Button className={cx('inbox-btn')} outline>
                                         Messages
                                     </Button>
-                                    <Button className={cx('unfollow-btn')} leftIcon={<FollowedUser />}></Button>
+                                    <Tooltip content="Unfollow" placement="bottom-end">
+                                        <Button
+                                            onClick={unfollowUser}
+                                            className={cx('unfollow-btn')}
+                                            leftIcon={<FollowedUser />}
+                                        ></Button>
+                                    </Tooltip>
                                 </>
                             ) : (
-                                <Button className={cx('follow-btn')} primary>
+                                <Button
+                                    className={cx('follow-btn')}
+                                    primary
+                                    onClick={() => {
+                                        isEmptyObj(currentUser) ? ShowModal(modalRef) : followUser();
+                                    }}
+                                >
                                     Follow
                                 </Button>
                             )}
@@ -74,7 +151,27 @@ const User = ({ data: user }) => {
                 )}
             </div>
             <div className={cx('actions')}>
-                <ShareAccount className={cx('share-icon')} />
+                <div>
+                    <Tippy
+                        interactive
+                        placement="bottom-end"
+                        render={(attrs) => (
+                            <div className={cx('menu')} tabIndex="-1" {...attrs}>
+                                <PopperWrapper>
+                                    {SHARE_MENU.map((item, index) => (
+                                        <div className={cx('item')} key={index}>
+                                            <item.icon width="2.6rem" height="2.6rem" className={cx('item-icon')} />
+                                            <p className={cx('item-title')}>{item.title}</p>
+                                        </div>
+                                    ))}
+                                </PopperWrapper>
+                            </div>
+                        )}
+                    >
+                        <ShareAccount className={cx('share-icon')} />
+                    </Tippy>
+                </div>
+
                 <MoreAccount className={cx('more-icon')} />
             </div>
         </div>

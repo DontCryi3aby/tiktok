@@ -46,7 +46,7 @@
     }
 }
 
-.lock-icon {
+.lock {
     margin-right: 6px;
     pointer-events: none;
 }
@@ -99,4 +99,32 @@
     -webkit-line-clamp: 1;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+// Liked tab
+.liked-tab {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.inner {
+    text-align: center;
+}
+.lock-icon {
+    color: #b0b4b4;
+}
+.notice {
+    h3 {
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: #161823;
+        font-family: 'SofiaPro', sans-serif;
+    }
+
+    p {
+        font-size: 1.6rem;
+        margin-top: 2px;
+    }
 }
