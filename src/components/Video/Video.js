@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { useContext, useState, useEffect } from 'react';
 import Tippy from '@tippyjs/react/headless';
+import { Link } from 'react-router-dom';
 
 import Button from '~/components/Button';
 import Image from '~/components/Image';
@@ -105,7 +106,9 @@ function Video({ data, type = 'suggested' }) {
             </div>
 
             <div className={cx('video-wrapper')}>
-                <VideoCustom data={data} />
+                <Link to={`/@${data.user.nickname}/video/${data.id}`}>
+                    <VideoCustom data={data} />
+                </Link>
 
                 <div className={cx('actions')}>
                     <div className={cx('action-item')}>
@@ -113,10 +116,12 @@ function Video({ data, type = 'suggested' }) {
                         <span className={cx('value')}>{data.likes_count}</span>
                     </div>
 
-                    <div className={cx('action-item')}>
-                        <ActionItem className={cx('action')} icon={<CommentIcon />} />
-                        <span className={cx('value')}>{data.comments_count}</span>
-                    </div>
+                    <Link to={`/@${data.user.nickname}/video/${data.id}`}>
+                        <div className={cx('action-item')}>
+                            <ActionItem className={cx('action')} icon={<CommentIcon />} />
+                            <span className={cx('value')}>{data.comments_count}</span>
+                        </div>
+                    </Link>
 
                     <div className={cx('action-item')}>
                         <ActionItem className={cx('action')} icon={<ShareIcon />} />

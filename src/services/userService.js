@@ -59,7 +59,6 @@ export const follow = async ({ id, token }) => {
 
 export const unfollow = async ({ id, token }) => {
     try {
-        console.log(id, token);
         const res = await httpRequest.post(`/users/${id}/unfollow`, [], {
             headers: {
                 Authorization: `Bearer ${token}`,
