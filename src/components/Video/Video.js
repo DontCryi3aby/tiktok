@@ -10,7 +10,7 @@ import MusicTag from '~/components/MusicTag';
 import ActionItem from '~/components/ActionItem';
 import VideoCustom from './VideoCustom';
 import styles from './Video.module.scss';
-import { HeartIcon, CommentIcon, ShareIcon } from '~/components/Icons';
+import { HeartIcon, CommentIcon, ShareIcon, Tick } from '~/components/Icons';
 import { Context } from '~/store/AuthContext';
 import { isEmptyObj } from '~/store/GlobalFunction';
 import AccountPreview from '~/components/AccountPreview';
@@ -78,7 +78,10 @@ function Video({ data, type = 'suggested' }) {
                                 render={renderPreview}
                             >
                                 <div className={cx('user')}>
-                                    <h4 className={cx('username')}>{data.user.nickname}</h4>
+                                    <div>
+                                        <span className={cx('username')}>{data.user.nickname}</span>
+                                        {data.user.tick && <Tick className={cx('tick')} />}
+                                    </div>
                                     <span
                                         className={cx('name')}
                                     >{`${data.user.first_name} ${data.user.last_name}`}</span>

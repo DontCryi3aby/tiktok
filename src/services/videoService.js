@@ -29,3 +29,16 @@ export const getAVideo = async ({ id, token }) => {
         console.log(error);
     }
 };
+
+export const getCommentsList = async ({ id, token }) => {
+    try {
+        const res = await httpRequest.get(`videos/${id}/comments`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};

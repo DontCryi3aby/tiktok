@@ -15,6 +15,7 @@ import {
     EmbedIcon,
     TwitterIcon,
     LineIcon,
+    Tick,
 } from '~/components/Icons';
 import styles from './User.module.scss';
 import Image from '~/components/Image';
@@ -81,7 +82,10 @@ const User = ({ data: user }) => {
                 <div className={cx('account-wrapper')}>
                     <Image className={cx('avatar')} src={user.avatar} alt={user.nickname} />
                     <div className={cx('account')}>
-                        <h2 className={cx('nickname')}>{user.nickname}</h2>
+                        <div>
+                            <span className={cx('nickname')}>{user.nickname}</span>
+                            {user.tick && <Tick width="2rem" height="2rem" />}
+                        </div>
                         <p className={cx('name')}>{`${user.first_name} ${user.last_name}`}</p>
                         <div className={cx('btns')}>
                             {isFollowed ? (
