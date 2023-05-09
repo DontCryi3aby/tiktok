@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './Video.module.scss';
@@ -9,7 +9,18 @@ import { Tick, HeartBorder, HeartIcon } from '~/components/Icons';
 const cx = classNames.bind(styles);
 
 const CommentItem = ({ data: comment }) => {
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(comment.is_liked);
+    const [likesCount, setLikesCount] = useState(comment.likes_count);
+
+    const handleLikeComment = async () => {
+        if (isLiked) {
+            setIsLiked(false);
+            setLikesCount(likesCount - 1);
+        } else {
+            setIsLiked(true);
+            setLikesCount(likesCount + 1);
+        }
+    };
 
     return (
         <div className={cx('comment-item')}>
@@ -23,13 +34,13 @@ const CommentItem = ({ data: comment }) => {
                 </p>
                 <div className={cx('comment-wrapper')}>
                     <p className={cx('comment')}>{comment.comment}</p>
-                    <div className={cx('like-icon')}>
+                    <div className={cx('like-icon')} onClick={handleLikeComment}>
                         {isLiked ? (
-                            <HeartIcon className={cx('heart-icon')} />
+                            <HeartIcon className={cx('heart-icon', 'active')} />
                         ) : (
                             <HeartBorder className={cx('heart-icon')} />
                         )}
-                        <span className={cx('likes-count')}>{comment.likes_count}</span>
+                        <span className={cx('likes-count')}>{likesCount}</span>
                     </div>
                 </div>
                 <p className={cx('reply')}>

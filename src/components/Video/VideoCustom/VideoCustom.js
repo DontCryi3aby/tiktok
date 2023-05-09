@@ -8,6 +8,7 @@ import { PlayIcon, PauseIcon, VolumeIcon, MuteIcon } from '~/components/Icons';
 import { Context } from '~/store/GlobalContext';
 import { StopPropagation, PreventDefault } from '~/store/GlobalFunction';
 import Image from '~/components/Image';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -80,12 +81,14 @@ function VideoCustom({ data }) {
         }
     }, [isMuted, volume]);
 
-    const togglePlay = () => {
+    const togglePlay = (e) => {
+        e.stopPropagation();
         isPlaying ? videoRef.current.pause() : videoRef.current.play();
         setIsPlaying(!isPlaying);
     };
 
-    const toggleMute = () => {
+    const toggleMute = (e) => {
+        e.stopPropagation();
         setIsMuted(!isMuted);
     };
 
@@ -130,15 +133,17 @@ function VideoCustom({ data }) {
 
     return (
         <div className={cx('wrapper', shapeOfVideo)}>
-            <video
-                ref={setRefs}
-                width={videoWidth}
-                height={videoHeight}
-                className={cx('video')}
-                src={fileUrl}
-                autoPlay={false}
-                loop
-            />
+            <Link to={`/@${data.user.nickname}/video/${data.id}`}>
+                <video
+                    ref={setRefs}
+                    width={videoWidth}
+                    height={videoHeight}
+                    className={cx('video')}
+                    src={fileUrl}
+                    autoPlay={false}
+                    loop
+                />
+            </Link>
             {/* <Image width={videoWidth} height={videoHeight} className={cx('thumb', { hidden: inView })} src={thumbUrl} /> */}
             <div className={cx('controls')}>
                 <span className={cx('control', 'play-btn')} onClick={togglePlay}>

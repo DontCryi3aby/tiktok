@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
-import { useParams } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Tippy from '@tippyjs/react/headless';
 
@@ -43,14 +42,49 @@ const CommentSpace = ({ data: video }) => {
     const [inputValue, setInputValue] = useState('');
 
     const [commentsList, setCommentsList] = useState([]);
+    const [isLiked, setIsLiked] = useState(video.is_liked);
+    const [likesCount, setLikesCount] = useState(video.likes_count);
+    const [commentsCount, setCommentsCount] = useState(video.comments_count);
+
+    const commentInputRef = useRef();
 
     useEffect(() => {
-        const token = isEmptyObj(currentUser) ? '' : currentUser.meta.token;
         (async () => {
+            const fakeToken =
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90aWt0b2suZnVsbHN0YWNrLmVkdS52blwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTY4MzUyOTU5MSwiZXhwIjoxNjg2MTIxNTkxLCJuYmYiOjE2ODM1Mjk1OTEsImp0aSI6IkxVMEt6SUFtTm9mTENXTGsiLCJzdWIiOjQ5NzMsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.w7TYgPLDISSaSwFw_3OKzsL6mUtzOZLd0WVsDlbVyP0';
+            const token = isEmptyObj(currentUser) ? fakeToken : currentUser.meta.token;
             const data = await videoService.getCommentsList({ id: video.id, token: token });
             setCommentsList(data);
         })();
-    }, []);
+    }, [video.id, currentUser]);
+
+    const handleLikeVideo = async () => {
+        if (!isEmptyObj(currentUser)) {
+            if (isLiked) {
+                await videoService.unlikeAVideo({ id: video.id, token: currentUser.meta.token });
+                setIsLiked(false);
+                setLikesCount(likesCount - 1);
+            } else {
+                await videoService.likeAVideo({ id: video.id, token: currentUser.meta.token });
+                setIsLiked(true);
+                setLikesCount(likesCount + 1);
+            }
+        }
+    };
+
+    const handleComment = async () => {
+        if (!isEmptyObj(currentUser)) {
+            const data = await userService.comment({
+                id: video.id,
+                token: currentUser.meta.token,
+                comment: inputValue,
+            });
+            setCommentsList((prev) => [data, ...prev]);
+            setCommentsCount(commentsCount + 1);
+            setInputValue('');
+            commentInputRef.current.focus();
+        }
+    };
 
     const renderPreview = (attrs) => (
         <div className={cx('preview')} tabIndex="-1" {...attrs}>
@@ -123,13 +157,13 @@ const CommentSpace = ({ data: video }) => {
                 <MusicTag className={cx('tag')} label={video.music} />
                 <div className={cx('actions')}>
                     <div className={cx('video-actions')}>
-                        <div className={cx('action', 'like')}>
-                            <HeartIcon className={cx('action-icon', { active: video.is_liked })} />
-                            <span className={cx('value')}>{video.likes_count}</span>
+                        <div className={cx('action', 'like')} onClick={handleLikeVideo}>
+                            <HeartIcon className={cx('action-icon', { active: isLiked })} />
+                            <span className={cx('value')}>{likesCount}</span>
                         </div>
                         <div className={cx('action')}>
                             <CommentIcon className={cx('action-icon')} />
-                            <span className={cx('value')}>{video.comments_count}</span>
+                            <span className={cx('value')}>{commentsCount}</span>
                         </div>
                         <div className={cx('action', 'share')}>
                             <ShareIcon className={cx('action-icon')} />
@@ -156,16 +190,32 @@ const CommentSpace = ({ data: video }) => {
             </div>
             <div className={cx('comment-fn')}>
                 {isEmptyObj(currentUser) ? (
-                    <div className={cx('comment-wrap', 'not-login')}>Log in to comment</div>
+                    <div className={cx('comment-wrap', 'not-login')} onClick={() => ShowModal(modalRef)}>
+                        Log in to comment
+                    </div>
                 ) : (
                     <>
                         <div className={cx('comment-wrap')}>
                             <input
+                                ref={commentInputRef}
                                 value={inputValue}
                                 className={cx('comment-input')}
                                 placeholder="Add comment..."
                                 spellCheck={false}
-                                onChange={(e) => setInputValue(e.target.value)}
+                                onChange={(e) => {
+                                    const input = e.target.value;
+                                    if (!input.startsWith(' ')) {
+                                        setInputValue(input);
+                                    }
+                                }}
+                                onKeyDown={(e) => {
+                                    switch (e.code) {
+                                        case 'Enter':
+                                            handleComment();
+                                            break;
+                                        default:
+                                    }
+                                }}
                             />
                             <button className={cx('comment-icon')}>
                                 <At />
@@ -174,7 +224,9 @@ const CommentSpace = ({ data: video }) => {
                                 <Emoji />
                             </button>
                         </div>
-                        <div className={cx('post-btn')}>Post</div>
+                        <div className={cx('post-btn', { active: !!inputValue.trim() })} onClick={handleComment}>
+                            Post
+                        </div>
                     </>
                 )}
             </div>

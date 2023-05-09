@@ -17,6 +17,7 @@ import AccountPreview from '~/components/AccountPreview';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import { Context as globalContext } from '~/store/GlobalContext';
 import * as userService from '~/services/userService';
+import * as videoService from '~/services/videoService';
 
 const cx = classNames.bind(styles);
 
@@ -28,6 +29,8 @@ function Video({ data, type = 'suggested' }) {
     const { currentUser } = useContext(globalContext);
 
     const [isFollowed, setIsFollowed] = useState(data.user.is_followed);
+    const [isLiked, setIsLiked] = useState(data.is_liked);
+    const [likesCount, setLikesCount] = useState(data.likes_count);
 
     useEffect(() => {
         setIsFollowed(data.user.is_followed);
@@ -41,6 +44,20 @@ function Video({ data, type = 'suggested' }) {
             } else {
                 await userService.unfollow({ id: data.user_id, token: currentUser.meta.token });
                 setIsFollowed(false);
+            }
+        }
+    };
+
+    const handleLikeVideo = async () => {
+        if (!isEmptyObj(currentUser)) {
+            if (isLiked) {
+                await videoService.unlikeAVideo({ id: data.id, token: currentUser.meta.token });
+                setIsLiked(false);
+                setLikesCount(likesCount - 1);
+            } else {
+                await videoService.likeAVideo({ id: data.id, token: currentUser.meta.token });
+                setIsLiked(true);
+                setLikesCount(likesCount + 1);
             }
         }
     };
@@ -65,7 +82,9 @@ function Video({ data, type = 'suggested' }) {
                             offset={[-5, 0]}
                             render={renderPreview}
                         >
-                            <Image className={cx('avatar')} src={data.user.avatar} />
+                            <Link to={`/@${data.user.nickname}`}>
+                                <Image className={cx('avatar')} src={data.user.avatar} />
+                            </Link>
                         </Tippy>
                     </div>
                     <div className={cx('desc')}>
@@ -77,15 +96,17 @@ function Video({ data, type = 'suggested' }) {
                                 offset={[-5, 30]}
                                 render={renderPreview}
                             >
-                                <div className={cx('user')}>
-                                    <div>
-                                        <span className={cx('username')}>{data.user.nickname}</span>
-                                        {data.user.tick && <Tick className={cx('tick')} />}
+                                <Link to={`/@${data.user.nickname}`}>
+                                    <div className={cx('user')}>
+                                        <div>
+                                            <span className={cx('username')}>{data.user.nickname}</span>
+                                            {data.user.tick && <Tick className={cx('tick')} />}
+                                        </div>
+                                        <span
+                                            className={cx('name')}
+                                        >{`${data.user.first_name} ${data.user.last_name}`}</span>
                                     </div>
-                                    <span
-                                        className={cx('name')}
-                                    >{`${data.user.first_name} ${data.user.last_name}`}</span>
-                                </div>
+                                </Link>
                             </Tippy>
                         </div>
                         <p className={cx('caption')}>{data.description}</p>
@@ -109,14 +130,12 @@ function Video({ data, type = 'suggested' }) {
             </div>
 
             <div className={cx('video-wrapper')}>
-                <Link to={`/@${data.user.nickname}/video/${data.id}`}>
-                    <VideoCustom data={data} />
-                </Link>
+                <VideoCustom data={data} />
 
                 <div className={cx('actions')}>
-                    <div className={cx('action-item')}>
-                        <ActionItem className={cx('action')} icon={<HeartIcon />} />
-                        <span className={cx('value')}>{data.likes_count}</span>
+                    <div className={cx('action-item')} onClick={handleLikeVideo}>
+                        <ActionItem className={cx('action')} icon={<HeartIcon className={cx({ active: isLiked })} />} />
+                        <span className={cx('value')}>{likesCount}</span>
                     </div>
 
                     <Link to={`/@${data.user.nickname}/video/${data.id}`}>

@@ -69,3 +69,19 @@ export const unfollow = async ({ id, token }) => {
         console.log(error);
     }
 };
+
+export const comment = async ({ id, token, comment }) => {
+    try {
+        const res = await httpRequest.post(`/videos/${id}/comments`, [], {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            params: {
+                comment,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};

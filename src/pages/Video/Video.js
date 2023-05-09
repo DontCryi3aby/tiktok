@@ -13,8 +13,6 @@ const cx = classNames.bind(styles);
 
 const Video = () => {
     const { id } = useParams();
-    console.log(id);
-
     const [video, setVideo] = useState({});
 
     const { currentUser } = useContext(Context);
@@ -23,7 +21,6 @@ const Video = () => {
         (async () => {
             const token = !isEmptyObj(currentUser) ? currentUser.meta.token : '';
             const data = await videoService.getAVideo({ id, token });
-            console.log(data);
             setVideo(data);
         })();
     }, [currentUser, id]);

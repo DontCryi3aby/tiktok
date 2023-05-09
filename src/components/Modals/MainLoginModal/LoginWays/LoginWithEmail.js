@@ -19,8 +19,8 @@ const LoginEmailForm = () => {
     const [passwordValue, setPasswordValue] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(false);
 
-    const handleLogin = async (username, password) => {
-        const data = await authService.login(username, password);
+    const handleLogin = async () => {
+        const data = await authService.login(usernameValue, passwordValue);
         if (data.errorCode) {
             passwordRef.current.classList.add(cx('wrong-password'));
         } else {
@@ -35,7 +35,16 @@ const LoginEmailForm = () => {
     };
 
     return (
-        <div>
+        <div
+            onKeyDown={(e) => {
+                switch (e.code) {
+                    case 'Enter':
+                        handleLogin();
+                        break;
+                    default:
+                }
+            }}
+        >
             <input
                 value={usernameValue}
                 id={styles.username}

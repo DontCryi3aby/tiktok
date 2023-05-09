@@ -42,3 +42,31 @@ export const getCommentsList = async ({ id, token }) => {
         console.log(error);
     }
 };
+
+export const likeAVideo = async ({ id, token }) => {
+    try {
+        const res = await httpRequest.post(`videos/${id}/like`, [], {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log('liked');
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const unlikeAVideo = async ({ id, token }) => {
+    try {
+        const res = await httpRequest.post(`videos/${id}/unlike`, [], {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log('unliked');
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};

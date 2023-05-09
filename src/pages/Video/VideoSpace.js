@@ -29,17 +29,7 @@ const VideoSpace = ({ data: video }) => {
     const volumeBarRef = useRef();
     const volumeRef = useRef();
 
-    console.log(video);
-
-    // Change data to Camel Case
-    // const {
-    //     thumb_url: thumbUrl,
-    //     file_url: fileUrl,
-    //     meta: {
-    //         video: { resolution_x: videoWidth, resolution_y: videoHeight },
-    //     },
-    // } = video;
-    // const shapeOfVideo = videoWidth > videoHeight ? 'horizontal' : 'vertical';
+    const shapeOfVideo = video.meta.video.resolution_x > video.meta.video.resolution_y ? 'vertical' : 'horizontal';
 
     useEffect(() => {
         if (isMuted) {
@@ -102,7 +92,14 @@ const VideoSpace = ({ data: video }) => {
     return (
         <div className={cx('video-wrapper')}>
             <Image className={cx('background')} src={video.thumb_url} alt={video.user.nickname} />
-            <video ref={videoRef} onClick={togglePlay} className={cx('video')} src={video.file_url} autoPlay loop />
+            <video
+                ref={videoRef}
+                onClick={togglePlay}
+                className={cx('video', shapeOfVideo)}
+                src={video.file_url}
+                autoPlay
+                loop
+            />
             <Link to={`/`} className={cx('left')}>
                 <CloseIcon className={cx('btn')} />
             </Link>
