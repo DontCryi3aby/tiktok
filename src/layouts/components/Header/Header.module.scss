@@ -9,6 +9,7 @@
     height: var(--default-layout-header-height);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     background-color: var(--white);
+    min-width: 576px;
 }
 
 .inner {

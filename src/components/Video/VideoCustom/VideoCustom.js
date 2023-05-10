@@ -133,7 +133,7 @@ function VideoCustom({ data }) {
 
     return (
         <div className={cx('wrapper', shapeOfVideo)}>
-            <Link to={`/@${data.user.nickname}/video/${data.id}`}>
+            <Link className={cx('video-wrapper')} to={`/@${data.user.nickname}/video/${data.id}`}>
                 <video
                     ref={setRefs}
                     width={videoWidth}

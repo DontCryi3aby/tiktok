@@ -21,3 +21,11 @@
 .fullscreen {
     width: 100%;
 }
+
+@media (max-width: 920px) {
+    .content {
+        margin-left: 100px;
+        width: unset;
+        min-width: calc(576px - 100px - 20px);
+    }
+}

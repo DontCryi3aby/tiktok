@@ -121,3 +121,14 @@
     font-size: 1.6rem;
     font-weight: 600;
 }
+
+@media (max-width: 768px) {
+    .info {
+        flex: 1;
+    }
+
+    .account {
+        width: unset;
+        flex: 1;
+    }
+}

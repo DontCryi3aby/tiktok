@@ -1,6 +1,7 @@
 .wrapper {
     display: flex;
     justify-content: space-between;
+    min-width: 576px;
 }
 
 // Video Space
@@ -485,5 +486,35 @@
     &.active {
         color: var(--primary-color);
         font-weight: 700;
+    }
+}
+
+@media (max-width: 992px) {
+    .actions {
+        justify-content: center;
+    }
+
+    .video-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .share-actions {
+        display: none;
+
+        .share-action-icon {
+            width: 0;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .video-wrapper {
+        width: 100%;
+        min-width: 576px;
+    }
+
+    .container {
+        display: none;
     }
 }

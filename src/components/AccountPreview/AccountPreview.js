@@ -10,7 +10,7 @@ import Image from '~/components/Image';
 import Button from '~/components/Button';
 import { Context as authContext } from '~/store/AuthContext';
 import { Context as globalContext } from '~/store/GlobalContext';
-import { defaultFn, isEmptyObj } from '~/store/GlobalFunction';
+import { isEmptyObj } from '~/store/GlobalFunction';
 import * as userService from '~/services/userService';
 
 const cx = classNames.bind(styles);

@@ -24,3 +24,14 @@
 .title {
     margin-left: 10px;
 }
+
+@media (max-width: 920px) {
+    .menu-item {
+        justify-content: center;
+    }
+
+    .title {
+        display: none;
+        margin-left: 0;
+    }
+}

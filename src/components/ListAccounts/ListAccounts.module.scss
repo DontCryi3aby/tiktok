@@ -62,3 +62,20 @@
     font-family: 'ProximaNova', sans-serif;
     cursor: pointer;
 }
+
+@media (max-width: 920px) {
+    .name,
+    .username,
+    .label,
+    .more-btn {
+        display: none;
+    }
+
+    .info {
+        margin-left: 0;
+    }
+
+    .avatar {
+        margin: 6px;
+    }
+}
