@@ -138,15 +138,17 @@ function Header({ isFullScreen = false }) {
                 <Search />
 
                 <div className={cx('actions')}>
-                    <Button
-                        leftIcon={<FontAwesomeIcon icon={faPlus} />}
-                        className={cx('upload')}
-                        onClick={() => {
-                            isEmptyObj(currentUser) ? ShowModal(modalRef) : defaultFn();
-                        }}
-                    >
-                        Upload
-                    </Button>
+                    <Link to={config.routes.upload}>
+                        <Button
+                            leftIcon={<FontAwesomeIcon icon={faPlus} />}
+                            className={cx('upload')}
+                            onClick={() => {
+                                isEmptyObj(currentUser) ? ShowModal(modalRef) : defaultFn();
+                            }}
+                        >
+                            Upload
+                        </Button>
+                    </Link>
                     {!isEmptyObj(currentUser) ? (
                         <>
                             <Tippy placement="bottom" content="Messages">

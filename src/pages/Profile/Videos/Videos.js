@@ -8,7 +8,6 @@ import styles from './Videos.module.scss';
 import { isEmptyObj } from '~/store/GlobalFunction';
 import VideoItem from './VideoItem';
 import { Context as globalContext } from '~/store/GlobalContext';
-import { Context as authContext } from '~/store/AuthContext';
 import * as videoService from '~/services/videoService';
 
 const cx = classNames.bind(styles);
