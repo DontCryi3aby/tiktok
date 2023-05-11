@@ -28,8 +28,12 @@ function Profile() {
 
     return (
         <div className={cx('wrapper')}>
-            <User data={user} />
-            <Videos data={user} />
+            {!isEmptyObj(user) && (
+                <>
+                    <User data={user} />
+                    <Videos data={user} />
+                </>
+            )}
         </div>
     );
 }

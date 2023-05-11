@@ -14,4 +14,9 @@ export const post = async (path, data, options = {}) => {
     return res.data;
 };
 
+export const patch = async (path, data, options = {}) => {
+    const res = await httpRequest.patch(path, data, options);
+    return res.data;
+};
+
 export default httpRequest;

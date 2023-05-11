@@ -85,3 +85,28 @@ export const comment = async ({ id, token, comment }) => {
         console.log(error);
     }
 };
+
+export const updateProfile = async (obj) => {
+    try {
+        const res = await httpRequest.patch(
+            `/auth/me`,
+            {
+                nickname: obj.username,
+                first_name: obj.name
+                    .split(' ')
+                    .slice(0, obj.name.split(' ').length - 1)
+                    .join(' '),
+                last_name: obj.name.split(' ').pop(),
+                bio: obj.bio,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${obj.token}`,
+                },
+            },
+        );
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};

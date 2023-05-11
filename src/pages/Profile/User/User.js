@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
@@ -24,6 +24,9 @@ import { Context as globalContext } from '~/store/GlobalContext';
 import { isEmptyObj } from '~/store/GlobalFunction';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import * as userService from '~/services/userService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import ModalProfile from './ModalProfile';
 
 const cx = classNames.bind(styles);
 
@@ -35,9 +38,20 @@ const User = ({ data: user }) => {
     // Get follow state context
     const [isFollowed, setIsFollowed] = useState(user.is_followed);
 
+    const modalProfileRef = useRef();
+
+    // Update on modal profile => Re-Render
+    const [userInfoProfile, setUserInfoProfile] = useState({
+        username: user.nickname,
+        name: `${user.first_name} ${user.last_name}`,
+        bio: user.bio,
+    });
+
     useEffect(() => {
         setIsFollowed(user.is_followed);
     }, [user.is_followed]);
+
+    console.log('render');
 
     const SHARE_MENU = [
         {
@@ -76,19 +90,42 @@ const User = ({ data: user }) => {
         setIsFollowed(false);
     };
 
+    const isOwner = () => {
+        if (!isEmptyObj(currentUser) && currentUser.data.id === user.id) {
+            return true;
+        }
+        return false;
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('info')}>
                 <div className={cx('account-wrapper')}>
-                    <Image className={cx('avatar')} src={user.avatar} alt={user.nickname} />
+                    <Image className={cx('avatar')} src={user.avatar} alt={userInfoProfile.username} />
                     <div className={cx('account')}>
                         <div>
-                            <span className={cx('nickname')}>{user.nickname}</span>
+                            <span className={cx('nickname')}>{userInfoProfile.username}</span>
                             {user.tick && <Tick width="2rem" height="2rem" />}
                         </div>
-                        <p className={cx('name')}>{`${user.first_name} ${user.last_name}`}</p>
+                        <p className={cx('name')}>{userInfoProfile.name}</p>
                         <div className={cx('btns')}>
-                            {isFollowed ? (
+                            {isOwner() && (
+                                <>
+                                    <Button
+                                        className={cx('update-profile-btn')}
+                                        leftIcon={<FontAwesomeIcon icon={faPenToSquare} />}
+                                        onClick={() => modalProfileRef.current.classList.remove(cx('hide'))}
+                                    >
+                                        Edit Profile
+                                    </Button>
+                                    <ModalProfile
+                                        state={[userInfoProfile, setUserInfoProfile]}
+                                        ref={modalProfileRef}
+                                        data={user}
+                                    />
+                                </>
+                            )}
+                            {isFollowed && !isOwner() && (
                                 <>
                                     <Button className={cx('inbox-btn')} outline>
                                         Messages
@@ -101,7 +138,9 @@ const User = ({ data: user }) => {
                                         ></Button>
                                     </Tooltip>
                                 </>
-                            ) : (
+                            )}
+
+                            {!isFollowed && !isOwner() && (
                                 <Button
                                     className={cx('follow-btn')}
                                     primary
@@ -126,7 +165,7 @@ const User = ({ data: user }) => {
                         <span className={cx('value')}>{user.likes_count}</span>Likes
                     </p>
                 </div>
-                <p className={cx('bio')}>{user.bio}</p>
+                <p className={cx('bio')}>{userInfoProfile.bio}</p>
 
                 {user.website_url && (
                     <a className={cx('link')} href={user.website_url}>
