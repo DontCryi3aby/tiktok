@@ -13,11 +13,13 @@ const cx = classNames.bind(styles);
 const ModalProfile = ({ data: user, state }, ref) => {
     const { currentUser } = useContext(globalContext);
 
+    const [avatar, setAvatar] = useState(user.avatar);
     const [usernameValue, setUsernameValue] = useState(user.nickname);
     const [nameValue, setNameValue] = useState(`${user.first_name} ${user.last_name}`);
     const [bioValue, setBioValue] = useState(user.bio);
 
     const saveBtnRef = useRef();
+    const inputFileRef = useRef();
     const oldProfile = useRef({ username: usernameValue, name: nameValue, bio: bioValue });
 
     const [, setUserInfoProfile] = state;
@@ -32,6 +34,18 @@ const ModalProfile = ({ data: user, state }, ref) => {
         } else {
             return false;
         }
+    };
+
+    const handleUploadAvatar = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const avt = e.target.files[0];
+            setAvatar(URL.createObjectURL(avt));
+            saveBtnRef.current.classList.add(cx('active'));
+        }
+    };
+
+    const handleChangeAvatar = () => {
+        inputFileRef.current.click();
     };
 
     const handleSave = () => {
@@ -67,13 +81,15 @@ const ModalProfile = ({ data: user, state }, ref) => {
                 <div className={cx('modal-content')}>
                     <div className={cx('profile-photo', 'profile-item')}>
                         <span className={cx('label')}>Profile photo</span>
-                        <div className={cx('modal-image')}>
-                            <Image
-                                className={cx('profile-avt', 'edit-content')}
-                                src={user.avatar}
-                                alt={user.nickname}
-                            />
+                        <div className={cx('modal-image')} onClick={handleChangeAvatar}>
+                            <Image className={cx('profile-avt', 'edit-content')} src={avatar} alt={user.nickname} />
                             <EditProfileIcon className={cx('edit-icon')} />
+                            <input
+                                ref={inputFileRef}
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={handleUploadAvatar}
+                            />
                         </div>
                     </div>
 
