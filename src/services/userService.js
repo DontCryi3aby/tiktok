@@ -88,11 +88,9 @@ export const comment = async ({ id, token, comment }) => {
 
 export const updateProfile = async (obj) => {
     try {
-        console.log(obj);
         const res = await httpRequest.patch(
             `/auth/me`,
             {
-                avatar: obj.avatar.name,
                 nickname: obj.username,
                 first_name: obj.name
                     .split(' ')
@@ -104,7 +102,6 @@ export const updateProfile = async (obj) => {
             {
                 headers: {
                     Authorization: `Bearer ${obj.token}`,
-                    'content-type': obj.avatar.type,
                 },
             },
         );

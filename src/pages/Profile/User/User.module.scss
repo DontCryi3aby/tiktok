@@ -287,6 +287,18 @@
     font-weight: 600;
 }
 
+@media (max-width: 992px) {
+    .overlay {
+        width: 100%;
+        min-width: 576px;
+    }
+
+    .modal-wrapper {
+        max-width: 100%;
+        min-width: 576px;
+    }
+}
+
 @media (max-width: 768px) {
     .info {
         flex: 1;

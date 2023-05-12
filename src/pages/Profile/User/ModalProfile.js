@@ -20,9 +20,10 @@ const ModalProfile = ({ data: user, state }, ref) => {
 
     const saveBtnRef = useRef();
     const inputFileRef = useRef();
-    const oldProfile = useRef({ username: usernameValue, name: nameValue, bio: bioValue });
+    const oldProfile = useRef({ avatar: avatar, username: usernameValue, name: nameValue, bio: bioValue });
 
     const [, setUserInfoProfile] = state;
+    const prevAvatar = useRef(user.avatar);
 
     const checkAnyChange = () => {
         if (
@@ -39,8 +40,10 @@ const ModalProfile = ({ data: user, state }, ref) => {
     const handleUploadAvatar = (e) => {
         if (e.target.files && e.target.files[0]) {
             const avt = e.target.files[0];
+            console.log(avt);
+            // const reader = new FileReader();
             setAvatar(URL.createObjectURL(avt));
-            saveBtnRef.current.classList.add(cx('active'));
+            // saveBtnRef.current.classList.add(cx('active'));
         }
     };
 
@@ -73,7 +76,14 @@ const ModalProfile = ({ data: user, state }, ref) => {
             <div className={cx('modal-wrapper')}>
                 <header className={cx('modal-header')}>
                     <span className={cx('title')}>Edit profile</span>
-                    <span className={cx('close-icon')} onClick={() => ref.current.classList.add(cx('hide'))}>
+                    <span
+                        className={cx('close-icon')}
+                        onClick={() => {
+                            ref.current.classList.add(cx('hide'));
+                            setAvatar(prevAvatar.current);
+                            saveBtnRef.current.classList.remove(cx('active'));
+                        }}
+                    >
                         <CloseIcon />
                     </span>
                 </header>
@@ -156,7 +166,15 @@ const ModalProfile = ({ data: user, state }, ref) => {
                 </div>
 
                 <footer className={cx('modal-footer')}>
-                    <Button>Cancel</Button>
+                    <Button
+                        onClick={() => {
+                            ref.current.classList.add(cx('hide'));
+                            setAvatar(prevAvatar.current);
+                            saveBtnRef.current.classList.remove(cx('active'));
+                        }}
+                    >
+                        Cancel
+                    </Button>
                     <Button
                         onClick={handleSave}
                         ref={saveBtnRef}
