@@ -13,20 +13,22 @@ const cx = classNames.bind(styles);
 const ModalProfile = ({ data: user, state }, ref) => {
     const { currentUser } = useContext(globalContext);
 
-    const [avatar, setAvatar] = useState(user.avatar);
+    const [avatarReview, setAvatarReview] = useState(user.avatar);
+    const [avatarFile, setAvatarFile] = useState();
     const [usernameValue, setUsernameValue] = useState(user.nickname);
     const [nameValue, setNameValue] = useState(`${user.first_name} ${user.last_name}`);
     const [bioValue, setBioValue] = useState(user.bio);
 
     const saveBtnRef = useRef();
     const inputFileRef = useRef();
-    const oldProfile = useRef({ avatar: avatar, username: usernameValue, name: nameValue, bio: bioValue });
+    const oldProfile = useRef({ avatar: avatarReview, username: usernameValue, name: nameValue, bio: bioValue });
 
     const [, setUserInfoProfile] = state;
     const prevAvatar = useRef(user.avatar);
 
     const checkAnyChange = () => {
         if (
+            avatarReview !== oldProfile.current.avatar ||
             usernameValue !== oldProfile.current.username ||
             nameValue !== oldProfile.current.name ||
             bioValue !== oldProfile.current.bio
@@ -37,38 +39,62 @@ const ModalProfile = ({ data: user, state }, ref) => {
         }
     };
 
-    const handleUploadAvatar = (e) => {
-        if (e.target.files && e.target.files[0]) {
-            const avt = e.target.files[0];
-            console.log(avt);
-            // const reader = new FileReader();
-            setAvatar(URL.createObjectURL(avt));
-            // saveBtnRef.current.classList.add(cx('active'));
-        }
-    };
-
     const handleChangeAvatar = () => {
         inputFileRef.current.click();
     };
 
-    const handleSave = () => {
-        if (checkAnyChange()) {
-            const payload = {
-                username: usernameValue,
-                name: nameValue,
-                bio: bioValue,
-                token: currentUser.meta.token,
-            };
-            (async () => {
-                await userService.updateProfile(payload);
-                oldProfile.current.username = usernameValue;
-                oldProfile.current.name = nameValue;
-                oldProfile.current.bio = bioValue;
-                const user = { ...oldProfile.current };
-                ref.current.classList.add(cx('hide'));
-                setUserInfoProfile(user);
-            })();
+    const handleUploadAvatar = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const avt = e.target.files[0];
+            console.log(avt);
+            setAvatarFile(avt);
+            setAvatarReview(URL.createObjectURL(avt));
         }
+    };
+
+    const handleSave = () => {
+        // if (checkAnyChange()) {
+        const firstName = nameValue
+            .split(' ')
+            .slice(0, nameValue.split(' ').length - 1)
+            .join(' ');
+        const lastName = nameValue.split(' ').pop();
+
+        const headers = new Headers();
+        headers.append('Authorization', `Bearer ${currentUser.meta.token}`);
+
+        const formData = new FormData();
+        formData.append('avatar', avatarFile);
+        formData.append('username', usernameValue);
+        formData.append('first_name', firstName);
+        formData.append('last_name', lastName);
+        formData.append('bio', bioValue);
+
+        const requestOptions = {
+            method: 'PATCH',
+            headers: headers,
+            body: formData,
+        };
+
+        const fetchAPI = async () => {
+            const res = await userService.updatePF(requestOptions);
+            console.log('res: ', res);
+            // setUserInfoProfile(user)
+        };
+        fetchAPI();
+        // }
+
+        // (async () => {
+        //     console.log(payload);
+        //     await userService.updateProfile(payload);
+        //     oldProfile.current.avatar = avatarReview;
+        //     oldProfile.current.username = usernameValue;
+        //     oldProfile.current.name = nameValue;
+        //     oldProfile.current.bio = bioValue;
+        //     const user = { ...oldProfile.current };
+        //     ref.current.classList.add(cx('hide'));
+        //     setUserInfoProfile(user);
+        // })();
     };
 
     return (
@@ -80,7 +106,7 @@ const ModalProfile = ({ data: user, state }, ref) => {
                         className={cx('close-icon')}
                         onClick={() => {
                             ref.current.classList.add(cx('hide'));
-                            setAvatar(prevAvatar.current);
+                            setAvatarReview(prevAvatar.current);
                             saveBtnRef.current.classList.remove(cx('active'));
                         }}
                     >
@@ -92,7 +118,11 @@ const ModalProfile = ({ data: user, state }, ref) => {
                     <div className={cx('profile-photo', 'profile-item')}>
                         <span className={cx('label')}>Profile photo</span>
                         <div className={cx('modal-image')} onClick={handleChangeAvatar}>
-                            <Image className={cx('profile-avt', 'edit-content')} src={avatar} alt={user.nickname} />
+                            <Image
+                                className={cx('profile-avt', 'edit-content')}
+                                src={avatarReview}
+                                alt={user.nickname}
+                            />
                             <EditProfileIcon className={cx('edit-icon')} />
                             <input
                                 ref={inputFileRef}
@@ -169,7 +199,7 @@ const ModalProfile = ({ data: user, state }, ref) => {
                     <Button
                         onClick={() => {
                             ref.current.classList.add(cx('hide'));
-                            setAvatar(prevAvatar.current);
+                            setAvatarReview(prevAvatar.current);
                             saveBtnRef.current.classList.remove(cx('active'));
                         }}
                     >

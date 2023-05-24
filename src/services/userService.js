@@ -91,6 +91,7 @@ export const updateProfile = async (obj) => {
         const res = await httpRequest.patch(
             `/auth/me`,
             {
+                avatar: obj.avatar,
                 nickname: obj.username,
                 first_name: obj.name
                     .split(' ')
@@ -106,6 +107,16 @@ export const updateProfile = async (obj) => {
             },
         );
         return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const updatePF = async (requestOptions) => {
+    try {
+        const response = await fetch('https://tiktok.fullstack.edu.vn/api/auth/me', requestOptions);
+        const result = await response.json();
+        return result.data;
     } catch (error) {
         console.log(error);
     }
