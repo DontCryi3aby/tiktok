@@ -15,15 +15,15 @@ const Video = () => {
     const { id } = useParams();
     const [video, setVideo] = useState({});
 
-    const { currentUser } = useContext(Context);
+    const { currentUser, token: bearerToken } = useContext(Context);
 
     useEffect(() => {
         (async () => {
-            const token = !isEmptyObj(currentUser) ? currentUser.meta.token : '';
+            const token = !isEmptyObj(currentUser) ? bearerToken : '';
             const data = await videoService.getAVideo({ id, token });
             setVideo(data);
         })();
-    }, [currentUser, id]);
+    }, [currentUser, id, bearerToken]);
 
     return (
         <div className={cx('wrapper')}>

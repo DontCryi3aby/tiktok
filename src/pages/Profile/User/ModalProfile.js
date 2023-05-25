@@ -7,11 +7,12 @@ import Image from '~/components/Image';
 import Button from '~/components/Button';
 import * as userService from '~/services/userService';
 import { Context as globalContext } from '~/store/GlobalContext';
+import { reloadPage } from '~/store/GlobalFunction';
 
 const cx = classNames.bind(styles);
 
 const ModalProfile = ({ data: user, state }, ref) => {
-    const { currentUser } = useContext(globalContext);
+    const { currentUser, token } = useContext(globalContext);
 
     const [avatarReview, setAvatarReview] = useState(user.avatar);
     const [avatarFile, setAvatarFile] = useState();
@@ -46,12 +47,12 @@ const ModalProfile = ({ data: user, state }, ref) => {
     const handleUploadAvatar = (e) => {
         if (e.target.files && e.target.files[0]) {
             const avt = e.target.files[0];
-            console.log(avt);
             setAvatarFile(avt);
             setAvatarReview(URL.createObjectURL(avt));
         }
     };
 
+    // Update Profile
     const handleSave = () => {
         // if (checkAnyChange()) {
         const firstName = nameValue
@@ -61,40 +62,28 @@ const ModalProfile = ({ data: user, state }, ref) => {
         const lastName = nameValue.split(' ').pop();
 
         const headers = new Headers();
-        headers.append('Authorization', `Bearer ${currentUser.meta.token}`);
+        headers.append('Authorization', `Bearer ${token}`);
 
         const formData = new FormData();
-        formData.append('avatar', avatarFile);
+        avatarFile && formData.append('avatar', avatarFile);
         formData.append('username', usernameValue);
         formData.append('first_name', firstName);
         formData.append('last_name', lastName);
         formData.append('bio', bioValue);
 
         const requestOptions = {
-            method: 'PATCH',
+            method: 'POST',
             headers: headers,
             body: formData,
         };
 
-        const fetchAPI = async () => {
-            const res = await userService.updatePF(requestOptions);
-            console.log('res: ', res);
-            // setUserInfoProfile(user)
-        };
-        fetchAPI();
-        // }
-
-        // (async () => {
-        //     console.log(payload);
-        //     await userService.updateProfile(payload);
-        //     oldProfile.current.avatar = avatarReview;
-        //     oldProfile.current.username = usernameValue;
-        //     oldProfile.current.name = nameValue;
-        //     oldProfile.current.bio = bioValue;
-        //     const user = { ...oldProfile.current };
-        //     ref.current.classList.add(cx('hide'));
-        //     setUserInfoProfile(user);
-        // })();
+        // fetch API
+        (async () => {
+            const user = await userService.updateProfile(requestOptions);
+            setUserInfoProfile(user);
+            localStorage.setItem('user', JSON.stringify(user));
+            reloadPage();
+        })();
     };
 
     return (

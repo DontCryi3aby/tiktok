@@ -6,7 +6,7 @@ import { Context as globalContext } from '~/store/GlobalContext';
 
 function FollowingAccounts() {
     // Get data from UserLoginContext
-    const { currentUser } = useContext(globalContext);
+    const { currentUser, token } = useContext(globalContext);
 
     const [followingUsers, setFollowingUsers] = useState([]);
 
@@ -22,7 +22,7 @@ function FollowingAccounts() {
             if (!isEmptyObj(currentUser)) {
                 const data = await userService.getFollowing({
                     page: page,
-                    token: currentUser.meta.token,
+                    token: token,
                 });
                 if (data.length <= 0) {
                     setIsFull(true);

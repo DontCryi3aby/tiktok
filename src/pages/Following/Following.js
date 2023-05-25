@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 
 function Following() {
     // Get data from UserLoginContext
-    const { currentUser } = useContext(globalContext);
+    const { currentUser, token } = useContext(globalContext);
 
     const [page, setPage] = useState(1);
 
@@ -30,7 +30,7 @@ function Following() {
                     const data = await videoService.getVideosList({
                         type: 'following',
                         page: page,
-                        token: currentUser.meta.token,
+                        token,
                     });
                     setFollowingVideoList((prev) => [...prev, ...data]);
                 }

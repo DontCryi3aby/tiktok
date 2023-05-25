@@ -33,7 +33,7 @@ const cx = classNames.bind(styles);
 const User = ({ data: user }) => {
     // Get data from context
     const { modalRef, ShowModal } = useContext(authContext);
-    const { currentUser } = useContext(globalContext);
+    const { currentUser, token } = useContext(globalContext);
 
     // Get follow state context
     const [isFollowed, setIsFollowed] = useState(user.is_followed);
@@ -81,17 +81,17 @@ const User = ({ data: user }) => {
     ];
 
     const followUser = async () => {
-        await userService.follow({ id: user.id, token: currentUser.meta.token });
+        await userService.follow({ id: user.id, token: token });
         setIsFollowed(true);
     };
 
     const unfollowUser = async () => {
-        await userService.unfollow({ id: user.id, token: currentUser.meta.token });
+        await userService.unfollow({ id: user.id, token: token });
         setIsFollowed(false);
     };
 
     const isOwner = () => {
-        if (!isEmptyObj(currentUser) && currentUser.data.id === user.id) {
+        if (!isEmptyObj(currentUser) && currentUser.id === user.id) {
             return true;
         }
         return false;

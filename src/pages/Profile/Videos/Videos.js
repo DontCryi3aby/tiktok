@@ -13,7 +13,7 @@ import * as videoService from '~/services/videoService';
 const cx = classNames.bind(styles);
 
 const Videos = ({ data: user }) => {
-    const { currentUser } = useContext(globalContext);
+    const { currentUser, token } = useContext(globalContext);
 
     const [videoPlay, setVideoPlay] = useState();
     const [likedVideosList, setLikedVideosList] = useState([]);
@@ -31,21 +31,20 @@ const Videos = ({ data: user }) => {
     };
 
     const isOwner = () => {
-        if (!isEmptyObj(currentUser) && currentUser.data.id === user.id) {
+        if (!isEmptyObj(currentUser) && currentUser.id === user.id) {
             return true;
         }
         return false;
     };
-    console.log(currentUser.data);
 
     useEffect(() => {
-        if (!isEmptyObj(currentUser) && currentUser.data.id === user.id) {
+        if (!isEmptyObj(currentUser) && currentUser.id === user.id) {
             (async () => {
-                const data = await videoService.getLikedVideoList({ id: user.id, token: currentUser.meta.token });
+                const data = await videoService.getLikedVideoList({ id: user.id, token });
                 setLikedVideosList(data);
             })();
         }
-    }, [user, currentUser]);
+    }, [user, currentUser, token]);
 
     useEffect(() => {
         if (videoPlay) {

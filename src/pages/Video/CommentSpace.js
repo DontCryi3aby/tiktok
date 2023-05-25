@@ -33,7 +33,7 @@ const cx = classNames.bind(styles);
 
 const CommentSpace = ({ data: video }) => {
     // Get data from UserLoginContext
-    const { currentUser } = useContext(globalContext);
+    const { currentUser, token: bearerToken } = useContext(globalContext);
 
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(authContext);
@@ -52,20 +52,20 @@ const CommentSpace = ({ data: video }) => {
         (async () => {
             const fakeToken =
                 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90aWt0b2suZnVsbHN0YWNrLmVkdS52blwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTY4MzUyOTU5MSwiZXhwIjoxNjg2MTIxNTkxLCJuYmYiOjE2ODM1Mjk1OTEsImp0aSI6IkxVMEt6SUFtTm9mTENXTGsiLCJzdWIiOjQ5NzMsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.w7TYgPLDISSaSwFw_3OKzsL6mUtzOZLd0WVsDlbVyP0';
-            const token = isEmptyObj(currentUser) ? fakeToken : currentUser.meta.token;
-            const data = await videoService.getCommentsList({ id: video.id, token: token });
+            const token = isEmptyObj(currentUser) ? fakeToken : bearerToken;
+            const data = await videoService.getCommentsList({ id: video.id, token });
             setCommentsList(data);
         })();
-    }, [video.id, currentUser]);
+    }, [video.id, currentUser, bearerToken]);
 
     const handleLikeVideo = async () => {
         if (!isEmptyObj(currentUser)) {
             if (isLiked) {
-                await videoService.unlikeAVideo({ id: video.id, token: currentUser.meta.token });
+                await videoService.unlikeAVideo({ id: video.id, token: bearerToken });
                 setIsLiked(false);
                 setLikesCount(likesCount - 1);
             } else {
-                await videoService.likeAVideo({ id: video.id, token: currentUser.meta.token });
+                await videoService.likeAVideo({ id: video.id, token: bearerToken });
                 setIsLiked(true);
                 setLikesCount(likesCount + 1);
             }
@@ -76,7 +76,7 @@ const CommentSpace = ({ data: video }) => {
         if (!isEmptyObj(currentUser)) {
             const data = await userService.comment({
                 id: video.id,
-                token: currentUser.meta.token,
+                token: bearerToken,
                 comment: inputValue,
             });
             setCommentsList((prev) => [data, ...prev]);
@@ -97,10 +97,10 @@ const CommentSpace = ({ data: video }) => {
     const handleFollow = async () => {
         if (!isEmptyObj(currentUser)) {
             if (!isFollowed) {
-                await userService.follow({ id: video.user_id, token: currentUser.meta.token });
+                await userService.follow({ id: video.user_id, token: bearerToken });
                 setIsFollowed(true);
             } else {
-                await userService.unfollow({ id: video.user_id, token: currentUser.meta.token });
+                await userService.unfollow({ id: video.user_id, token: bearerToken });
                 setIsFollowed(false);
             }
         }

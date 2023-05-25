@@ -86,35 +86,9 @@ export const comment = async ({ id, token, comment }) => {
     }
 };
 
-export const updateProfile = async (obj) => {
+export const updateProfile = async (requestOptions) => {
     try {
-        const res = await httpRequest.patch(
-            `/auth/me`,
-            {
-                avatar: obj.avatar,
-                nickname: obj.username,
-                first_name: obj.name
-                    .split(' ')
-                    .slice(0, obj.name.split(' ').length - 1)
-                    .join(' '),
-                last_name: obj.name.split(' ').pop(),
-                bio: obj.bio,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${obj.token}`,
-                },
-            },
-        );
-        return res.data;
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-export const updatePF = async (requestOptions) => {
-    try {
-        const response = await fetch('https://tiktok.fullstack.edu.vn/api/auth/me', requestOptions);
+        const response = await fetch('https://tiktok.fullstack.edu.vn/api/auth/me?_method=PATCH', requestOptions);
         const result = await response.json();
         return result.data;
     } catch (error) {

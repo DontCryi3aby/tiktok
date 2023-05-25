@@ -9,6 +9,7 @@ const GlobalContext = ({ children }) => {
     const [priorityVideo, setPriorityVideo] = useState({});
     // Get user from local storage
     const currentUser = JSON.parse(localStorage.getItem('user')) ?? {};
+    const token = JSON.parse(localStorage.getItem('token')) ?? '';
 
     // Provide value to VideoContext
     const contextValue = {
@@ -16,6 +17,7 @@ const GlobalContext = ({ children }) => {
         mutedState: [isMuted, setIsMuted],
         priorityVideoState: [priorityVideo, setPriorityVideo],
         currentUser,
+        token,
     };
 
     return <Context.Provider value={contextValue}>{children}</Context.Provider>;

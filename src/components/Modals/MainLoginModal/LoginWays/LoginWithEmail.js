@@ -24,7 +24,8 @@ const LoginEmailForm = () => {
         if (data.errorCode) {
             passwordRef.current.classList.add(cx('wrong-password'));
         } else {
-            localStorage.setItem('user', JSON.stringify(data));
+            localStorage.setItem('user', JSON.stringify(data.data));
+            localStorage.setItem('token', JSON.stringify(`Bearer ${data.meta.token}`));
             reloadPage();
         }
     };

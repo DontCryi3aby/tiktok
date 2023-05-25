@@ -15,7 +15,7 @@ import Tippy from '@tippyjs/react';
 import classNames from 'classnames/bind';
 import 'tippy.js/dist/tippy.css';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import config from '~/config';
@@ -99,7 +99,7 @@ function Header({ isFullScreen = false }) {
     // Get data from UserLoginContext
     const { currentUser } = useContext(globalContext);
     if (!isEmptyObj(currentUser)) {
-        USER_MENU[0].to = `/@${currentUser.data.nickname}`;
+        USER_MENU[0].to = `/@${currentUser.nickname}`;
     } else {
         if (USER_MENU[0].to) {
             delete USER_MENU[0].to;
@@ -125,8 +125,13 @@ function Header({ isFullScreen = false }) {
     // Logout Function
     const handleLogout = () => {
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
         reloadPage();
     };
+
+    useEffect(() => {
+        // reloadPage();
+    }, [currentUser]);
 
     return (
         <header className={cx('wrapper')}>
@@ -163,7 +168,7 @@ function Header({ isFullScreen = false }) {
                                 </button>
                             </Tippy>
                             <Menu items={USER_MENU} onChange={handleMenuChange}>
-                                <Image className={cx('user-avatar')} src={currentUser.data.avatar} alt="avatar" />
+                                <Image className={cx('user-avatar')} src={currentUser.avatar} alt="avatar" />
                             </Menu>
                         </>
                     ) : (

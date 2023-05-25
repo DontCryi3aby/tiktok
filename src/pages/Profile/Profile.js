@@ -16,15 +16,15 @@ function Profile() {
     const { nickname: nicknameParam } = useParams();
     const [user, setUser] = useState({});
 
-    const { currentUser } = useContext(Context);
+    const { currentUser, token: bearerToken } = useContext(Context);
 
     useEffect(() => {
         (async () => {
-            const token = !isEmptyObj(currentUser) ? currentUser.meta.token : '';
+            const token = !isEmptyObj(currentUser) ? bearerToken : '';
             const data = await userService.getAnUser({ nicknameParam, token });
             setUser(data);
         })();
-    }, [currentUser, nicknameParam]);
+    }, [currentUser, nicknameParam, bearerToken]);
 
     return (
         <div className={cx('wrapper')}>

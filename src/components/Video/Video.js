@@ -26,7 +26,7 @@ function Video({ data, type = 'suggested' }) {
     const { modalRef, ShowModal } = useContext(Context);
 
     // Get data from UserLoginContext
-    const { currentUser } = useContext(globalContext);
+    const { currentUser, token } = useContext(globalContext);
 
     const [isFollowed, setIsFollowed] = useState(data.user.is_followed);
     const [isLiked, setIsLiked] = useState(data.is_liked);
@@ -39,10 +39,10 @@ function Video({ data, type = 'suggested' }) {
     const handleFollow = async () => {
         if (!isEmptyObj(currentUser)) {
             if (!isFollowed) {
-                await userService.follow({ id: data.user_id, token: currentUser.meta.token });
+                await userService.follow({ id: data.user_id, token: token });
                 setIsFollowed(true);
             } else {
-                await userService.unfollow({ id: data.user_id, token: currentUser.meta.token });
+                await userService.unfollow({ id: data.user_id, token: token });
                 setIsFollowed(false);
             }
         }
@@ -51,11 +51,11 @@ function Video({ data, type = 'suggested' }) {
     const handleLikeVideo = async () => {
         if (!isEmptyObj(currentUser)) {
             if (isLiked) {
-                await videoService.unlikeAVideo({ id: data.id, token: currentUser.meta.token });
+                await videoService.unlikeAVideo({ id: data.id, token: token });
                 setIsLiked(false);
                 setLikesCount(likesCount - 1);
             } else {
-                await videoService.likeAVideo({ id: data.id, token: currentUser.meta.token });
+                await videoService.likeAVideo({ id: data.id, token: token });
                 setIsLiked(true);
                 setLikesCount(likesCount + 1);
             }
