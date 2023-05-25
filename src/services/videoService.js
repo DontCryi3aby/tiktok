@@ -63,7 +63,6 @@ export const likeAVideo = async ({ id, token }) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log('liked');
         return res.data;
     } catch (error) {
         console.log(error);
@@ -77,7 +76,6 @@ export const unlikeAVideo = async ({ id, token }) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log('unliked');
         return res.data;
     } catch (error) {
         console.log(error);

@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function VideoCustom({ data }) {
+function VideoCustom({ data, state }) {
     // Get data from VideoContext
     const { volumeState, mutedState } = useContext(Context);
 
@@ -23,12 +23,14 @@ function VideoCustom({ data }) {
     // State
     const [isPlaying, setIsPlaying] = useState(true);
 
+    const [firstInViewVideo, setFirstInViewVideo] = state;
+
     const {
         ref: inViewRef,
         inView,
         entry,
     } = useInView({
-        threshold: 0.59,
+        threshold: 0.7,
     });
 
     // Ref
@@ -57,19 +59,25 @@ function VideoCustom({ data }) {
 
     useEffect(() => {
         if (inView) {
-            if (!isPlaying) {
-                videoRef.current.play();
-                setIsPlaying(true);
-            }
-        } else {
-            if (isPlaying) {
-                videoRef.current.pause();
-                videoRef.current.currentTime = 0;
-                setIsPlaying(false);
-            }
+            setFirstInViewVideo(videoRef.current);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inView]);
+
+    useEffect(() => {
+        if (videoRef.current === firstInViewVideo) {
+            videoRef.current.play();
+            setIsPlaying(true);
+        }
+
+        return () => {
+            if (firstInViewVideo) {
+                firstInViewVideo.pause();
+                firstInViewVideo.currentTime = 0;
+                setIsPlaying(false);
+            }
+        };
+    }, [firstInViewVideo]);
 
     useEffect(() => {
         if (isMuted) {
@@ -80,6 +88,10 @@ function VideoCustom({ data }) {
             volumeRef.current.style.height = volume * 100 + '%';
         }
     }, [isMuted, volume]);
+
+    useEffect(() => {
+        isPlaying && setFirstInViewVideo(videoRef.current);
+    }, [isPlaying]);
 
     const togglePlay = (e) => {
         e.stopPropagation();
@@ -164,6 +176,7 @@ function VideoCustom({ data }) {
 
 VideoCustom.propTypes = {
     data: PropTypes.object.isRequired,
+    state: PropTypes.array,
 };
 
 export default VideoCustom;

@@ -12,7 +12,7 @@ import { reloadPage } from '~/store/GlobalFunction';
 const cx = classNames.bind(styles);
 
 const ModalProfile = ({ data: user, state }, ref) => {
-    const { currentUser, token } = useContext(globalContext);
+    const { token } = useContext(globalContext);
 
     const [avatarReview, setAvatarReview] = useState(user.avatar);
     const [avatarFile, setAvatarFile] = useState();
@@ -54,36 +54,37 @@ const ModalProfile = ({ data: user, state }, ref) => {
 
     // Update Profile
     const handleSave = () => {
-        // if (checkAnyChange()) {
-        const firstName = nameValue
-            .split(' ')
-            .slice(0, nameValue.split(' ').length - 1)
-            .join(' ');
-        const lastName = nameValue.split(' ').pop();
+        if (checkAnyChange()) {
+            const firstName = nameValue
+                .split(' ')
+                .slice(0, nameValue.split(' ').length - 1)
+                .join(' ');
+            const lastName = nameValue.split(' ').pop();
 
-        const headers = new Headers();
-        headers.append('Authorization', `Bearer ${token}`);
+            const headers = new Headers();
+            headers.append('Authorization', `Bearer ${token}`);
 
-        const formData = new FormData();
-        avatarFile && formData.append('avatar', avatarFile);
-        formData.append('username', usernameValue);
-        formData.append('first_name', firstName);
-        formData.append('last_name', lastName);
-        formData.append('bio', bioValue);
+            const formData = new FormData();
+            avatarFile && formData.append('avatar', avatarFile);
+            formData.append('username', usernameValue);
+            formData.append('first_name', firstName);
+            formData.append('last_name', lastName);
+            formData.append('bio', bioValue);
 
-        const requestOptions = {
-            method: 'POST',
-            headers: headers,
-            body: formData,
-        };
+            const requestOptions = {
+                method: 'POST',
+                headers: headers,
+                body: formData,
+            };
 
-        // fetch API
-        (async () => {
-            const user = await userService.updateProfile(requestOptions);
-            setUserInfoProfile(user);
-            localStorage.setItem('user', JSON.stringify(user));
-            reloadPage();
-        })();
+            // fetch API
+            (async () => {
+                const user = await userService.updateProfile(requestOptions);
+                setUserInfoProfile(user);
+                localStorage.setItem('user', JSON.stringify(user));
+                reloadPage();
+            })();
+        }
     };
 
     return (

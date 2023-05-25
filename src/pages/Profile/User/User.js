@@ -51,8 +51,6 @@ const User = ({ data: user }) => {
         setIsFollowed(user.is_followed);
     }, [user.is_followed]);
 
-    console.log('render');
-
     const SHARE_MENU = [
         {
             icon: EmbedIcon,

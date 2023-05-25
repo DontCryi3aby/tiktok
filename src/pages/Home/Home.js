@@ -9,6 +9,7 @@ function Home() {
     // State
     const [videosList, setVideosList] = useState([]);
     const [page, setPage] = useState(Math.floor(Math.random() * 5));
+    const [firstInViewVideo, setFirstInViewVideo] = useState();
 
     const { ref, inView } = useInView();
     useEffect(() => {
@@ -25,7 +26,7 @@ function Home() {
     return (
         <div className={styles.wrapper}>
             {videosList.map((video) => (
-                <Video key={video.id} data={video} />
+                <Video key={video.id} data={video} state={[firstInViewVideo, setFirstInViewVideo]} />
             ))}
             <div ref={ref}></div>
         </div>

@@ -21,7 +21,7 @@ import * as videoService from '~/services/videoService';
 
 const cx = classNames.bind(styles);
 
-function Video({ data, type = 'suggested' }) {
+function Video({ data, type = 'suggested', state }) {
     // Get data from AuthContext
     const { modalRef, ShowModal } = useContext(Context);
 
@@ -130,7 +130,7 @@ function Video({ data, type = 'suggested' }) {
             </div>
 
             <div className={cx('video-wrapper')}>
-                <VideoCustom data={data} />
+                <VideoCustom data={data} state={state} />
 
                 <div className={cx('actions')}>
                     <div className={cx('action-item')} onClick={handleLikeVideo}>
@@ -158,6 +158,7 @@ function Video({ data, type = 'suggested' }) {
 Video.propTypes = {
     data: PropTypes.object.isRequired,
     type: PropTypes.string,
+    state: PropTypes.array,
 };
 
 export default Video;
