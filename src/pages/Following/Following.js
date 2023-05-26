@@ -18,6 +18,7 @@ function Following() {
     const [page, setPage] = useState(1);
 
     const [followingVideoList, setFollowingVideoList] = useState([]);
+    const [firstInViewVideo, setFirstInViewVideo] = useState();
 
     const { ref, inView } = useInView();
 
@@ -47,7 +48,12 @@ function Following() {
                 ) : (
                     <>
                         {followingVideoList.map((video) => (
-                            <Video key={video.id} data={video} type="following" />
+                            <Video
+                                key={video.id}
+                                data={video}
+                                type="following"
+                                state={[firstInViewVideo, setFirstInViewVideo]}
+                            />
                         ))}
                         <div ref={ref}></div>
                     </>

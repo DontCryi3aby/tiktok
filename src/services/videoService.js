@@ -4,7 +4,7 @@ export const getVideosList = async ({ type, page = 1, token }) => {
     try {
         const res = await httpRequest.get('videos', {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: token,
             },
             params: {
                 type,
@@ -21,7 +21,7 @@ export const getLikedVideoList = async ({ id, token }) => {
     try {
         const res = await httpRequest.get(`users/${id}/liked-videos`, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: token,
             },
         });
         return res.data;
@@ -34,7 +34,7 @@ export const getAVideo = async ({ id, token }) => {
     try {
         const res = await httpRequest.get(`videos/${id}`, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: token,
             },
         });
         return res.data;
@@ -47,7 +47,7 @@ export const getCommentsList = async ({ id, token }) => {
     try {
         const res = await httpRequest.get(`videos/${id}/comments`, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: token,
             },
         });
         return res.data;
@@ -60,7 +60,7 @@ export const likeAVideo = async ({ id, token }) => {
     try {
         const res = await httpRequest.post(`videos/${id}/like`, [], {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: token,
             },
         });
         return res.data;
@@ -73,7 +73,7 @@ export const unlikeAVideo = async ({ id, token }) => {
     try {
         const res = await httpRequest.post(`videos/${id}/unlike`, [], {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: token,
             },
         });
         return res.data;
